@@ -1,6 +1,10 @@
-# copy this file to parameters.R, then change the username and password below.  Do not check parameters.R into source control!
-# do not put a real username and password in parameters.R.dist, since it is checked into source control.
+# This file is used to set your relevant configuration options
 
-username <- 'username'
-password <- 'password'
-REST_ENDPOINT = 'https://nyu-demo.survos.com/api1.0'
+# Username and password here. Important to retain parenthesis
+
+username <- "YourUsernameHere"
+password <- "YourPasswordHere"
+
+# API Endpoint here
+
+endPoint <- paste("https://nyu-demo.survos.com/app_dev.php/api1.0/", sep="")
