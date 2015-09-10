@@ -14,13 +14,15 @@ if(!require("devtools")){
   library("survos")
 }
 
-# Load additional libraries. These should all have been installed with the survos package if not previously.
+# Load additional libraries. 
+# These should all have been installed with the survos package if not previously.
 library("RCurl")
 library("jsonlite")
 library("httr")
 library("dplyr")
 
-# Load external file containing username, password and API endpoint data. File must be saved in active working directory
+# Load external file containing username, password and API endpoint data. 
+# File must be saved in active working directory. See parameters.R.dist for example format
 source("parameters.R")
 
 # Login
