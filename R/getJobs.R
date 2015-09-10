@@ -39,3 +39,9 @@ users <- users()
 
 # Returns all assignment data associated with job_id 163
 assignments <- assignments(163)
+
+# Write a nice little csv to check output
+write.csv(jobsOut$id, file = "jobsOut.csv")
+
+# Also look for getJobs.Rout file if running from command line with R CMD BATCH. 
+# This will show result of running script and any errors.
