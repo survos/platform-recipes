@@ -1,3 +1,8 @@
+##################################################
+# Run this test script with: Rscript getJobs.R 
+# This will output errors, comments and progress
+##################################################
+
 # Check for the availability of devtools. If not installed, do so
 if(!require("devtools")){
   # If devtools fails with zero exit status due to unable to install xml2 library, 
