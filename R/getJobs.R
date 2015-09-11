@@ -19,6 +19,7 @@ if(!require("devtools")){
 library("RCurl")
 library("jsonlite")
 library("httr")
+library("plyr")
 library("dplyr")
 
 # Load external file containing username, password and API endpoint data. 
@@ -42,6 +43,9 @@ assignments <- assignments(163)
 
 # Write a nice little csv to check output
 write.csv(jobsOut$id, file = "jobsOut.csv")
+
+# Test Locations. This will return a lot of data! Check username and password in parameters.R
+locations <- locations(projectCode="truth_posse", memberId="5380", maxPerPage="100")
 
 # Also look for getJobs.Rout file if running from command line with R CMD BATCH. 
 # This will show result of running script and any errors.
