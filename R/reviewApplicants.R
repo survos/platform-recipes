@@ -1,7 +1,8 @@
-##################################################
+##########################################################################
+# Applicants Endpoint example
 # Run this test script with: Rscript reviewApplicants.R 
 # This will output errors, comments and progress
-##################################################
+##########################################################################
 
 # Check for the availability of devtools. If not installed, do so
 if(!require("devtools")){
@@ -35,11 +36,8 @@ source("parameters.R")
 loginSurvos(username, password)
 
 # Return applicants data. maxPerPage defaults to 25
-applicants <- applicants(maxPerPage = "250")
+applicants <- as.data.frame(applicants(projectCode = "demo", maxPerPage = "250", pii = "1"))
 
-# Drop all rows with age NA
-applicants <- applicants[complete.cases(applicants[,6]),]
-
-# Filter for ages >= 21 & <= 34
-applicants <- dplyr::filter(applicants, applicants$age >= 21, applicants$age <= 34)
+# Retain just applications username, email and age/zip
+applicantsDetails <- dplyr::select(applicants, code, email_within_project, personal_data)
 

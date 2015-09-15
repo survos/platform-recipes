@@ -1,7 +1,8 @@
-##################################################
+##########################################################################
+# Jobs, Users, Assignments & Locations Endpoint Example
 # Run this test script with: Rscript getJobs.R 
 # This will output errors, comments and progress
-##################################################
+##########################################################################
 
 # Check for the availability of devtools. If not installed, do so
 if(!require("devtools")){
@@ -44,14 +45,12 @@ jobsOut$id
 users <- users()
 
 # Returns all assignment data associated with job_id 163
+# If you put something like XYZ in here instead of a number, 
+# the script will stop and throw an error to check URL validity
 assignments <- assignments(163)
 
 # Write a nice little csv to check output 
 write.csv(jobsOut$id, file = "jobsOut.csv")
-
-# Returns all data from members endpoint for project code "nyu_demo".
-# Also supported are "maxPerPage" and "pii" calls. maxPerPage defaults to 25. pii defaults to 0.
-members <- members(projectCode="nyu_demo")
 
 # Test Locations. This will return a lot of data! Check username and password in parameters.R
 locations <- locations(projectCode="truth_posse", memberId="5380", maxPerPage="100")
