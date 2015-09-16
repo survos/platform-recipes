@@ -36,8 +36,6 @@ source("parameters.R")
 loginSurvos(username, password)
 
 # Return applicants data. maxPerPage defaults to 25
-applicants <- as.data.frame(applicants(projectCode = "demo", maxPerPage = "250", pii = "1"))
+applicants <- applicants(projectCode = "demo")
 
-# Retain just applications username, email and age/zip
-applicantsDetails <- dplyr::select(applicants, code, email_within_project, personal_data)
 
