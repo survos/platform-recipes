@@ -1,6 +1,7 @@
 ##########################################################################
 # Members Endpoint Example
-# Run this test script with: Rscript getMembers.R 
+# Run this test script with the following arguments: 
+# Rscript getMembers.R --username yourusername --password yourpassword --endpoint https://endpointtouse.survos.com/app_dev.php/api1.0/
 # This will output errors, comments and progress
 ##########################################################################
 
@@ -27,10 +28,22 @@ library("jsonlite")
 library("httr")
 library("plyr")
 library("dplyr")
+library("argparser")
+library("knitr")
 
 # Load external file containing username, password and API endpoint data. 
 # File must be saved in active working directory. See parameters.R.dist for example format
 source("parameters.R")
+
+# Add arguments which may be passed from the command line to override values held in parameters.
+gM <- arg_parser("Survos API Login Details")
+gM <- add_argument(gM, c("--username", "--password", "--endpoint"), help = c("Your Survos API username","Your Survos API password", "The Survos API endpoint to use"))
+
+argv <- parse_args(gM)
+
+username <- argv$username
+password <- argv$password
+endPoint <- argv$endpoint
 
 # Login
 loginSurvos(username, password)
@@ -69,4 +82,7 @@ justApplicants <- dplyr::filter(allMembers, allMembers$enrollment_status_code ==
 # Filter for just Applicants between the ages of 21 and 34
 rightAge <- dplyr::filter(justApplicants, justApplicants$age >= "21" & justApplicants$age <= "34")
 
-cat("Script complete. Applicants data, filtered by age >= 21 and <= 34,  now held in a variable called 'rightAge'")
+# Output some comments about the script completing and a pretty table.
+cat("Script complete. Applicants data, filtered by age >= 21 and <= 34,  now held in a variable called 'rightAge' and printed below")
+print(kable(rightAge))
+
