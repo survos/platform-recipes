@@ -63,3 +63,9 @@ membersWithPersonalData <- dplyr::bind_cols(membersWithPersonalData, justPersona
 # Bind both the With and Without Personal Data dataframes for All Members
 allMembers <- dplyr::bind_rows(membersNoPersonalData , membersWithPersonalData)
 
+# Filter for just Applicants
+justApplicants <- dplyr::filter(allMembers, allMembers$enrollment_status_code == "applicant")
+
+# Filter for just Applicants between the ages of 21 and 34
+rightAge <- dplyr::filter(justApplicants, justApplicants$age >= "21" & justApplicants$age <= "34")
+
