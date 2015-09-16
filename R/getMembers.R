@@ -69,3 +69,4 @@ justApplicants <- dplyr::filter(allMembers, allMembers$enrollment_status_code ==
 # Filter for just Applicants between the ages of 21 and 34
 rightAge <- dplyr::filter(justApplicants, justApplicants$age >= "21" & justApplicants$age <= "34")
 
+cat("Script complete. Applicants data, filtered by age >= 21 and <= 34,  now held in a variable called 'rightAge'")
