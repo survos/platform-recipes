@@ -44,7 +44,7 @@ jobsOut$id
 # A data frame containing all user data, from across 29 pages
 users <- users()
 
-# Returns all assignment data associated with job_id 163
+# Returns all assignment data associated with waveId 357
 # If you put something like XYZ in here instead of a number, 
 # the script will stop and throw an error to check URL validity
 assignments <- assignments(waveId = 357)
