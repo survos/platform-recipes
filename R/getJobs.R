@@ -47,7 +47,7 @@ users <- users()
 # Returns all assignment data associated with job_id 163
 # If you put something like XYZ in here instead of a number, 
 # the script will stop and throw an error to check URL validity
-assignments <- assignments(163)
+assignments <- assignments(waveId = 357)
 
 # Write a nice little csv to check output 
 write.csv(jobsOut$id, file = "jobsOut.csv")

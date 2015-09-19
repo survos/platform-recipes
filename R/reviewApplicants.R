@@ -35,7 +35,7 @@ source("parameters.R")
 # Login. Be sure to use correct credentials in parameters.R
 loginSurvos(username, password)
 
-# Return applicants data. maxPerPage defaults to 25
-applicants <- applicants(projectCode = "demo")
+# This will accept or reject applicants. All fields required. Do not put id in inverted commas.
+applicants <- applicants(action = "accept", id = 5455, comment = "A test designed to provoke an emotional response", message = "Deckard lied")
 
 

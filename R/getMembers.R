@@ -35,22 +35,30 @@ library("knitr")
 
 })
 
+
+# Login
 # Load external file containing username, password and API endpoint data. 
 # File must be saved in active working directory. See parameters.R.dist for example format
 source("parameters.R")
 
+loginSurvos(username, password)
+
 # Add arguments which may be passed from the command line to override values held in parameters.
+  
 gM <- arg_parser("Survos API Login Details")
 gM <- add_argument(gM, c("--username", "--password", "--endpoint"), help = c("Your Survos API username","Your Survos API password", "The Survos API endpoint to use"))
 
 argv <- parse_args(gM)
 
+# Check if anything has been passed from the command line.
+if(!is.na(argv$username)){
+  
 username <- argv$username
 password <- argv$password
 endPoint <- argv$endpoint
-
-# Login
 loginSurvos(username, password)
+
+}
 
 # Returns all data from members endpoint for project code "demo".
 # Also supported are "maxPerPage" and "pii" calls. maxPerPage defaults to 25. pii defaults to 0.
