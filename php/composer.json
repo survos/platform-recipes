@@ -1,0 +1,13 @@
+{
+  "name": "survos/platform-api-php",
+  "description": "Survos php api client",
+  "require": {
+    "guzzlehttp/guzzle": "~6.0"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Survos\\Client\\": "src/"
+    }
+  }
+}
