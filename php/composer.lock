@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "38834117b77f22b586cd82b37481ed2c",
-    "content-hash": "16a6a85fd290e36c07598e3d7737ecb5",
+    "hash": "c437188acb690922cc6e10c82dc4ad62",
+    "content-hash": "d465dd3a6df2edac43ca10ca2abdca80",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -179,6 +179,53 @@
             "time": "2015-11-03 01:34:55"
         },
         {
+            "name": "jwage/easy-csv",
+            "version": "0.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jwage/easy-csv.git",
+                "reference": "5ba994c332e3dec0e26e1d39789beaf8e2552a1e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jwage/easy-csv/zipball/5ba994c332e3dec0e26e1d39789beaf8e2552a1e",
+                "reference": "5ba994c332e3dec0e26e1d39789beaf8e2552a1e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "EasyCSV": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan H. Wage",
+                    "email": "jonwage@gmail.com"
+                }
+            ],
+            "description": "Easy CSV manipulation for PHP 5.4+",
+            "homepage": "http://github.com/jwage/easy-csv",
+            "keywords": [
+                "csv",
+                "read",
+                "write"
+            ],
+            "time": "2015-07-16 20:24:42"
+        },
+        {
             "name": "psr/http-message",
             "version": "dev-master",
             "source": {
@@ -226,14 +273,42 @@
                 "response"
             ],
             "time": "2015-05-04 20:22:00"
+        },
+        {
+            "name": "survos/platform-api-php",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/survos/platform-api-php.git",
+                "reference": "94e8fdca666f3d96fe7ce86ad0624b0940ed1c8a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/survos/platform-api-php/zipball/94e8fdca666f3d96fe7ce86ad0624b0940ed1c8a",
+                "reference": "94e8fdca666f3d96fe7ce86ad0624b0940ed1c8a",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Survos\\Client\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "Survos php api client",
+            "time": "2015-11-16 23:15:09"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "survos/platform-api-php": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
