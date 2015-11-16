@@ -3,6 +3,7 @@ require __DIR__.'/vendor/autoload.php';
 
 use Survos\Client\SurvosClient;
 use Survos\Client\Resource\ProjectResource;
+use Survos\Client\Resource\MemberResource;
 
 $reader = new \EasyCSV\Reader('new_projects.csv');
 
@@ -26,12 +27,18 @@ $resource->save(
     ]
 );
 
-// todo: enable Turk
-$resource->addModule('turk', ['is_active' => true]);
 
 $reader = new \EasyCSV\Reader('new_members.csv');
 
 while ($row = $reader->getRow()) {
+    $memberResource->create([
+        'code' => $code
+    ]);
+
     print_r($row);
 }
+
+// todo: enable Turk
+$resource->addModule('turk', ['is_active' => true]);
+
 
