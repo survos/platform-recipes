@@ -6,3 +6,4 @@ parameters.R$
 getJobs.Rout$
 jobsOut.csv$
 vendor
+config.json
