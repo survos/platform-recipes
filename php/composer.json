@@ -2,7 +2,8 @@
   "name": "survos/platform-api-php",
   "description": "Survos php api client",
   "require": {
-    "guzzlehttp/guzzle": "~6.0"
+    "guzzlehttp/guzzle": "~6.0",
+    "survos/platform-api-php": "dev-master"
   },
   "minimum-stability": "dev",
   "autoload": {
