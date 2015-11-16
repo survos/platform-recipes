@@ -26,6 +26,9 @@ $resource->save(
     ]
 );
 
+// todo: enable Turk
+$resource->addModule('turk', ['is_active' => true]);
+
 $reader = new \EasyCSV\Reader('new_members.csv');
 
 while ($row = $reader->getRow()) {
