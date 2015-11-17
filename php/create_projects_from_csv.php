@@ -4,42 +4,81 @@ require __DIR__.'/vendor/autoload.php';
 use Survos\Client\SurvosClient;
 use Survos\Client\Resource\ProjectResource;
 use Survos\Client\Resource\MemberResource;
-
-$reader = new \EasyCSV\Reader('new_projects.csv');
-
-while ($row = $reader->getRow()) {
-    print_r($row);
-}
+use Survos\Client\Resource\UserResource;
 
 $config = json_decode(file_get_contents(__DIR__.'/config.json'), true);
 $client = new SurvosClient($config['endpoint']);
 if (!$client->authorize($config['username'], $config['password'])) {
+    print_r($config);
     throw new \Exception('Wrong credentials!');
 }
+
+$userResource = new UserResource($client);
+$memberResource = new MemberResource($client);
+$projectResource = new ProjectResource($client);
+
 
 // get all projects
 /** @type ProjectResource $resource */
 $resource = new ProjectResource($client);
 
-
-$reader = new \EasyCSV\Reader('new_projects.csv', 'r+', true);
+$reader = new \EasyCSV\Reader('psy_class.csv', 'r+', true);
 
 while ($row = $reader->getRow()) {
     //code,name,description,timezone_id
 
-    $res = $resource->save(
-        [
-            'title'       => $row['name'],
-            'code'        => $row['code'],
-            'timezone_id' => $row['timezone_id'],
-            'description' => $row['description'],
-        ]
-    );
+    $code = $row['code'];
+    $params = [];
+    if ($project = $resource->getOneBy('code', $code))
+    {
+        $params['id'] = $project['id'];
+    }
+    try {
+        $res = $resource->save(
+            array_merge($params, [
+                'title'       => $name = $row['name'],
+                'code'        => $code,
+                'timezone_id' => 1, // $row['timezone_id'],
+                'description' => $name . " Project",
+                'background_server_code' => 'psymeasurement',
+            ])
+        );
+    } catch (\Exception $e)
+    {
+        printf("%s\n", $e->getMessage());
+        printf("Project $code already exists\n");
+    }
 
-    print_r($res);
-    $res = $resource->addModule($row['code'], 'turk');
-    print_r($res);
+    $project = $projectResource->getByCode($code);
+
+    $res = $resource->addModule($code, 'turk');
+
+    if (!$user){
+        print "user '{$code}' not found\n";
+    }
+    try {
+        foreach ([$code,'tac','ho449'] as $idx=>$username)
+        {
+            $user = $userResource->getOneBy('username', $username);
+
+            $res = $memberResource->save(
+                $params = [
+                    'code'                 => $username,
+                    'project_id'           => $project['id'],
+                    'user_id'              => $user['id'],
+                    'permission_type_code' => $owner,
+                ]
+            );
+        }
+    } catch(Exception $e) {
+        var_dump($params);
+        print "Error importing member" .$e->getMessage()."\n";
+    }
+
+
 }
+
+
 
 // todo: enable Turk
 //$resource->addModule('turk', ['is_active' => true]);

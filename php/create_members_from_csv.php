@@ -24,7 +24,8 @@ while ($row = $reader->getRow()) {
     // we ned that user for admins, maybe it should be separate field
     $user = $userResource->getOneBy('username', $row['username']);
 
-    if (!$user){
+    if (!$user)
+    {
         print "user '{$row['username']}' not found\n";
     }
     try {
