@@ -58,7 +58,7 @@ while ($row = $reader->getRow()) {
         {
             $user = $userResource->getOneBy('username', $username);
             if (!$user){
-                print "user '{$code}' not found\n";
+                print "user '$username' not found\n";
                 continue;
             }
             $params = [
@@ -67,12 +67,14 @@ while ($row = $reader->getRow()) {
                 'user_id'              => $user['id'],
                 'permission_type_code' => 'owner',
             ];
-            $members = $memberResource->getList(1, 1, ['code' => $username, 'project_id' => $project['id']]);
+            $response = $memberResource->getList(1, 1, ['code' => $username, 'project_id' => $project['id']]);
+            $members = $response['items'];
             if ($members) {
                 print "Member '$username' already exists for project " . $project['id'] . "\n";
                 continue;
 //                $params['id'] = $members[0]['id'];
             }
+            print "Saving member '$username' for project " . $project['id'] . "\n";
             $res = $memberResource->save($params);
         }
     } catch(Exception $e) {
