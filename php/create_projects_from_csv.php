@@ -18,11 +18,11 @@ if (!$client->authorize($config['username'], $config['password'])) {
 }
 
 // get all projects
+/** @type ProjectResource $resource */
 $resource = new ProjectResource($client);
 
 
-
-$reader = new \EasyCSV\Reader('new_projects.csv','r+',true);
+$reader = new \EasyCSV\Reader('new_projects.csv', 'r+', true);
 
 while ($row = $reader->getRow()) {
     //code,name,description,timezone_id
@@ -36,6 +36,8 @@ while ($row = $reader->getRow()) {
         ]
     );
 
+    print_r($res);
+    $res = $resource->addModule($row['code'], 'turk');
     print_r($res);
 }
 

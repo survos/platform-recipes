@@ -276,16 +276,16 @@
         },
         {
             "name": "survos/platform-api-php",
-            "version": "1.1.5",
+            "version": "1.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/platform-api-php.git",
-                "reference": "721f59a74ad7e618388711426e065ef191b86fea"
+                "reference": "5ffa3237034805e4ac319cc98485de423ff110e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/survos/platform-api-php/zipball/721f59a74ad7e618388711426e065ef191b86fea",
-                "reference": "721f59a74ad7e618388711426e065ef191b86fea",
+                "url": "https://api.github.com/repos/survos/platform-api-php/zipball/5ffa3237034805e4ac319cc98485de423ff110e4",
+                "reference": "5ffa3237034805e4ac319cc98485de423ff110e4",
                 "shasum": ""
             },
             "require": {
@@ -302,7 +302,7 @@
                 "proprietary"
             ],
             "description": "Survos php api client",
-            "time": "2015-11-17 11:08:51"
+            "time": "2015-11-17 13:53:47"
         }
     ],
     "packages-dev": [],
