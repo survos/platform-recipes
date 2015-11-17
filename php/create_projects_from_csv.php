@@ -19,26 +19,27 @@ if (!$client->authorize($config['username'], $config['password'])) {
 
 // get all projects
 $resource = new ProjectResource($client);
-$resource->save(
-    [
-        'title'       => "new poject",
-        'code'        => "new_project_code",
-        'timezone_id' => 1,
-    ]
-);
 
 
-$reader = new \EasyCSV\Reader('new_members.csv');
+
+$reader = new \EasyCSV\Reader('new_projects.csv','r+',true);
 
 while ($row = $reader->getRow()) {
-    $memberResource->create([
-        'code' => $code
-    ]);
+    //code,name,description,timezone_id
 
-    print_r($row);
+    $res = $resource->save(
+        [
+            'title'       => $row['name'],
+            'code'        => $row['code'],
+            'timezone_id' => $row['timezone_id'],
+            'description' => $row['description'],
+        ]
+    );
+
+    print_r($res);
 }
 
 // todo: enable Turk
-$resource->addModule('turk', ['is_active' => true]);
+//$resource->addModule('turk', ['is_active' => true]);
 
 
