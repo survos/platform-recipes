@@ -6,5 +6,10 @@
     "survos/platform-api-php": "^1.1",
     "symfony/console": "^2.7"
   },
-  "minimum-stability": "dev"
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Command\\": "Command/"
+    }
+  }
 }

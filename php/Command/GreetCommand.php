@@ -1,5 +1,6 @@
-<?
-// namespace Acme\Console\Command;
+<?php
+
+namespace Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -20,12 +21,11 @@ class GreetCommand extends Command
                 'Who do you want to greet?'
             )
             ->addOption(
-               'yell',
-               null,
-               InputOption::VALUE_NONE,
-               'If set, the task will yell in uppercase letters'
-            )
-        ;
+                'yell',
+                null,
+                InputOption::VALUE_NONE,
+                'If set, the task will yell in uppercase letters'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
