@@ -45,7 +45,7 @@ while ($row = $reader->getRow()) {
         );
     } catch (\Exception $e)
     {
-        printf("%s\n", $e->getMessage());
+        printf("Error saving project: %s\n", $e->getMessage());
         printf("Project $code already exists\n");
     }
 
