@@ -38,6 +38,8 @@ while ($row = $reader->getRow()) {
             array_merge($params, [
                 'title'       => $name = $row['name'],
                 'code'        => $code,
+                'contact_email' => $name . '@nyu.edu',
+                'contact_name' => $name,
                 'timezone_id' => 1, // $row['timezone_id'],
                 'description' => $name . " Project",
                 'background_server_code' => 'psymeasurement',
@@ -54,7 +56,7 @@ while ($row = $reader->getRow()) {
     $res = $resource->addModule($code, 'turk');
 
     try {
-        foreach ([$code,'tac','ho449'] as $idx=>$username)
+        foreach ([$code,'tomkirchner','tac','ho449'] as $idx=>$username)
         {
             $user = $userResource->getOneBy('username', $username);
             if (!$user){
