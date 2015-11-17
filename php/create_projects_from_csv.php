@@ -53,20 +53,20 @@ while ($row = $reader->getRow()) {
 
     $res = $resource->addModule($code, 'turk');
 
-    if (!$user){
-        print "user '{$code}' not found\n";
-    }
     try {
         foreach ([$code,'tac','ho449'] as $idx=>$username)
         {
             $user = $userResource->getOneBy('username', $username);
-
+            if (!$user){
+                print "user '{$code}' not found\n";
+                continue;
+            }
             $res = $memberResource->save(
                 $params = [
                     'code'                 => $username,
                     'project_id'           => $project['id'],
                     'user_id'              => $user['id'],
-                    'permission_type_code' => $owner,
+                    'permission_type_code' => 'owner',
                 ]
             );
         }
