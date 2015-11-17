@@ -22,17 +22,24 @@ $reader = new \EasyCSV\Reader('new_members.csv');
 while ($row = $reader->getRow()) {
     $project = $projectResource->getByCode($row['project_code']);
     $user = $userResource->getOneBy('username', $row['code']);
-    $res = $memberResource->save(
-        [
-            'code'                 => $row['code'],
-            'project_id'           => $project['id'],
-            'permission_type_code' => $row['permission_type_code'],
-        ]
-    );
+
+    if (!$user){
+        print "user {$row['code']} not found\n";
+        continue;
+    }
+    try {
+        $res = $memberResource->save(
+            [
+                'code'                 => $row['code'],
+                'project_id'           => $project['id'],
+                'user_id'              => $user['id'],
+                'permission_type_code' => $row['permission_type_code'],
+            ]
+        );
+    } catch(Exception $e) {
+        print "Error importing user {$row['code']}:".$e->getMessage()."\n";
+    }
 
 }
-
-// todo: enable Turk
-//$resource->addModule('turk', ['is_active' => true]);
 
 
