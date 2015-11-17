@@ -1,6 +1,6 @@
-project_code,code,permission_type_code
-student1,tac,owner
-student1,piotr,researcher
-student2,tac,owner
-student2,okeith,owner
+project_code,username,code,permission_type_code
+student1,tac,tac,owner
+student1,piotr,piotr,researcher
+student2,tac,tac,owner
+student2,okeith,okeith,owner
 

@@ -21,11 +21,11 @@ $reader = new \EasyCSV\Reader('new_members.csv');
 
 while ($row = $reader->getRow()) {
     $project = $projectResource->getByCode($row['project_code']);
-    $user = $userResource->getOneBy('username', $row['code']);
+    // we ned that user for admins, maybe it should be separate field
+    $user = $userResource->getOneBy('username', $row['username']);
 
     if (!$user){
-        print "user {$row['code']} not found\n";
-        continue;
+        print "user '{$row['username']}' not found\n";
     }
     try {
         $res = $memberResource->save(
@@ -37,7 +37,7 @@ while ($row = $reader->getRow()) {
             ]
         );
     } catch(Exception $e) {
-        print "Error importing user {$row['code']}:".$e->getMessage()."\n";
+        print "Error importing member {$row['code']}:".$e->getMessage()."\n";
     }
 
 }
