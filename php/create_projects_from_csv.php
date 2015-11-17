@@ -61,18 +61,23 @@ while ($row = $reader->getRow()) {
                 print "user '{$code}' not found\n";
                 continue;
             }
-            $res = $memberResource->save(
-                $params = [
-                    'code'                 => $username,
-                    'project_id'           => $project['id'],
-                    'user_id'              => $user['id'],
-                    'permission_type_code' => 'owner',
-                ]
-            );
+            $params = [
+                'code'                 => $username,
+                'project_id'           => $project['id'],
+                'user_id'              => $user['id'],
+                'permission_type_code' => 'owner',
+            ];
+            $members = $memberResource->getList(1, 1, ['code' => $username, 'project_id' => $project['id']]);
+            if ($members) {
+                print "Member '$username' already exists for project " . $project['id'] . "\n";
+                continue;
+//                $params['id'] = $members[0]['id'];
+            }
+            $res = $memberResource->save($params);
         }
     } catch(Exception $e) {
         var_dump($params);
-        print "Error importing member" .$e->getMessage()."\n";
+        print "Error importing member: " .$e->getMessage()."\n";
     }
 
 
