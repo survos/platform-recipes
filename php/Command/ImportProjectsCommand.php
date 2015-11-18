@@ -2,7 +2,7 @@
 
 namespace Command;
 
-use Symfony\Component\Console\Command\Command;
+use Command\Base\BaseCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -12,7 +12,7 @@ use Survos\Client\Resource\MemberResource;
 use Survos\Client\Resource\ProjectResource;
 use Survos\Client\Resource\UserResource;
 
-class ImportProjectsCommand extends Command
+class ImportProjectsCommand extends BaseCommand
 {
     protected function configure()
     {
@@ -41,29 +41,18 @@ class ImportProjectsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $filename = $input->getArgument('filename');
-        if (!file_exists($filename)) {
-            $output->writeln('<error>Import file not found</error>');
+        // important don't remove
+        parent::execute($input, $output);
 
-            return;
-        }
+        $filename = $input->getArgument('filename');
+
         $serverCode = $input->getOption('server-code');
         $timezoneId = $input->getOption('timezone-id');
 
+        $client = new SurvosClient($this->parameters['endpoint']);
 
-        $configPath = __DIR__.'/../config.json';
-        if (!file_exists($configPath)) {
-            $output->writeln('<error>Configuration file not found</error>');
-
-            return;
-        }
-        $config = json_decode(file_get_contents($configPath), true);
-
-        $client = new SurvosClient($config['endpoint']);
-        if (!$client->authorize($config['username'], $config['password'])) {
+        if (!$client->authorize($this->parameters['username'], $this->parameters['password'])) {
             $output->writeln('<error>Wrong credentials</error>');
-            print_r($config);
-
             return;
         }
 

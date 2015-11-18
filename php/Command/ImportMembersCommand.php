@@ -2,10 +2,9 @@
 
 namespace Command;
 
-use Symfony\Component\Console\Command\Command;
+use Command\Base\BaseCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Survos\Client\SurvosClient;
 use Survos\Client\Resource\MemberResource;
@@ -13,10 +12,11 @@ use Survos\Client\Resource\ProjectResource;
 use Survos\Client\Resource\UserResource;
 
 
-class ImportMembersCommand extends Command
+class ImportMembersCommand extends BaseCommand
 {
     protected function configure()
     {
+        parent::configure();
         $this
             ->setName('import:members')
             ->setDescription('Import members from CSV file')
@@ -24,18 +24,14 @@ class ImportMembersCommand extends Command
                 'filename',
                 InputArgument::REQUIRED,
                 'path to the CSV file'
-            )
-//            ->addOption(
-//                'yell',
-//                null,
-//                InputOption::VALUE_NONE,
-//                'If set, the task will yell in uppercase letters'
-//            )
-        ;
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // important don't remove
+        parent::execute($input, $output);
+
         $name = $input->getArgument('filename');
 
         $config = json_decode(file_get_contents(__DIR__.'/../config.json'), true);

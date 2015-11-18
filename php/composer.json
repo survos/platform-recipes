@@ -4,7 +4,22 @@
   "require": {
     "jwage/easy-csv": "^0.0.3",
     "survos/platform-api-php": "^1.1.8",
-    "symfony/console": "^2.7"
+    "symfony/console": "^2.7",
+    "symfony/yaml": "^2.7",
+    "incenteev/composer-parameter-handler": "2.1.*"
+  },
+  "extra": {
+    "incenteev-parameters": {
+      "file": "config.yml"
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+    ],
+    "post-update-cmd": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+    ]
   },
   "minimum-stability": "dev",
   "autoload": {
