@@ -42,6 +42,11 @@ class ImportProjectsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $filename = $input->getArgument('filename');
+        if (!file_exists($filename)) {
+            $output->writeln('<error>Import file not found</error>');
+
+            return;
+        }
         $serverCode = $input->getOption('server-code');
         $timezoneId = $input->getOption('timezone-id');
 
@@ -71,7 +76,7 @@ class ImportProjectsCommand extends Command
         /** @type ProjectResource $resource */
         $resource = new ProjectResource($client);
 
-        $reader = new \EasyCSV\Reader($filename, 'r+', true);
+        $reader = new \EasyCSV\Reader($filename, 'r', true);
 
         while ($row = $reader->getRow()) {
             //code,name,description,timezone_id
@@ -119,19 +124,20 @@ class ImportProjectsCommand extends Command
                         'user_id'              => $user['id'],
                         'permission_type_code' => 'owner',
                     ];
-                    $response = $memberResource->getList(1, 1, ['code' => $username, 'project_id' => $project['id']]);
-                    $members = $response['items'];
-                    if ($members) {
-                        print "Member '$username' already exists for project ".$project['id']."\n";
+                    $member = $memberResource->getOneBy(['code' => $username, 'project_id' => $project['id']]);
+                    if ($member) {
+                        $output->writeln(
+                            "<error>Member '$username' already exists for project ".$project['id']."</error>"
+                        );
                         continue;
-//                $params['id'] = $members[0]['id'];
                     }
+
                     print "Saving member '$username' for project ".$project['id']."\n";
                     $res = $memberResource->save($params);
                 }
             } catch (Exception $e) {
                 var_dump($params);
-                print "Error importing member: ".$e->getMessage()."\n";
+                $output->writeln("<error>Error importing member: {$e->getMessage()}</error>");
             }
 
 
