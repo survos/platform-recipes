@@ -72,11 +72,11 @@ while ($row = $reader->getRow()) {
             $response = $memberResource->getList(1, 1, ['code' => $username, 'project_id' => $project['id']]);
             $members = $response['items'];
             if ($members) {
-                print "Member '$username' already exists for project " . $project['id'] . "\n";
+                print "Member '$username' already exists for project " . $project['code'] . "\n";
                 continue;
 //                $params['id'] = $members[0]['id'];
             }
-            print "Saving member '$username' for project " . $project['id'] . "\n";
+            print "Saving member '$username' for project " . $project['code'] . "\n";
             $res = $memberResource->save($params);
         }
     } catch(Exception $e) {
