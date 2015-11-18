@@ -29,7 +29,7 @@ while ($row = $reader->getRow()) {
 
     $code = $row['code'];
     $params = [];
-    if ($project = $resource->getOneBy('code', $code))
+    if ($project = $resource->getOneBy(['code'=> $code]))
     {
         $params['id'] = $project['id'];
     }
@@ -56,7 +56,7 @@ while ($row = $reader->getRow()) {
     try {
         foreach ([$code,'tac','ho449'] as $idx=>$username)
         {
-            $user = $userResource->getOneBy('username', $username);
+            $user = $userResource->getOneBy(['username'=> $username]);
             if (!$user){
                 print "user '$username' not found\n";
                 continue;

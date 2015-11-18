@@ -8,5 +8,6 @@ use Symfony\Component\Console\Application;
 use Command\GreetCommand;
 
 $application = new Application();
-$application->add(new GreetCommand());
+$application->add(new \Command\ImportMembersCommand());
+$application->add(new \Command\ImportProjectsCommand());
 $application->run();
