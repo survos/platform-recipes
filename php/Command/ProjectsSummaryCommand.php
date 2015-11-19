@@ -34,23 +34,29 @@ class ProjectsSummaryCommand extends BaseCommand
         parent::execute($input, $output);
         $projectResource = new ProjectResource($this->sourceClient);
         $memberResource = new MemberResource($this->sourceClient);
+        $sur
 
-        foreach ($projectResource->getList() as $idx=>$project) {
-            var_dump($project); die();
+        $result = $projectResource->getList();
+        foreach ($result['items'] as $idx => $project) {
             $projectCode = $project['code'];
-            $members = $memberResource->getList();
+            $result = $memberResource->getList(1, 1000, ['project_id' => $project['id'], 'permission_type_code' => 'owner']);
+            $owners = implode(
+                ', ',
+                array_map(
+                    function ($member) { return $member['code']; },
+                    $result['items']
+                )
+            );
             $data[] =
                 [
                     'code' => $projectCode,
-                    'memberCount' => count($members)
+                    'owners' => $owners
                 ];
         }
         $table = new Table($output);
         $table
-            ->setHeaders(['code','memberCount'])
+            ->setHeaders(['code', 'owners'])
             ->setRows($data);
         $table->render();
-
     }
-
 }
