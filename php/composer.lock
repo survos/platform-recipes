@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7e3cfe93257d7c18753779060e6d2432",
-    "content-hash": "198e222ecb4456ec0b1eb81734ce7a6f",
+    "hash": "efdbfb881b41ae8434bc8daf1f6c9e50",
+    "content-hash": "489bcd7976ed294e5e2219159635783c",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -231,16 +231,16 @@
         },
         {
             "name": "jwage/easy-csv",
-            "version": "0.0.3",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jwage/easy-csv.git",
-                "reference": "5ba994c332e3dec0e26e1d39789beaf8e2552a1e"
+                "reference": "febd4024fa6996d9162b330ae6e2b2368c18da85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jwage/easy-csv/zipball/5ba994c332e3dec0e26e1d39789beaf8e2552a1e",
-                "reference": "5ba994c332e3dec0e26e1d39789beaf8e2552a1e",
+                "url": "https://api.github.com/repos/jwage/easy-csv/zipball/febd4024fa6996d9162b330ae6e2b2368c18da85",
+                "reference": "febd4024fa6996d9162b330ae6e2b2368c18da85",
                 "shasum": ""
             },
             "require": {
@@ -274,7 +274,7 @@
                 "read",
                 "write"
             ],
-            "time": "2015-07-16 20:24:42"
+            "time": "2015-07-16 20:56:41"
         },
         {
             "name": "psr/http-message",
@@ -357,26 +357,26 @@
         },
         {
             "name": "symfony/console",
-            "version": "2.8.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "74bf9202a531cc6942454eb9e2dd1e13bde34a31"
+                "reference": "6f1ca4f709c3ff35e19476cf9a6c4d17ae650008"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/74bf9202a531cc6942454eb9e2dd1e13bde34a31",
-                "reference": "74bf9202a531cc6942454eb9e2dd1e13bde34a31",
+                "url": "https://api.github.com/repos/symfony/console/zipball/6f1ca4f709c3ff35e19476cf9a6c4d17ae650008",
+                "reference": "6f1ca4f709c3ff35e19476cf9a6c4d17ae650008",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9",
+                "php": ">=5.5.9",
                 "symfony/polyfill-mbstring": "~1.0"
             },
             "require-dev": {
                 "psr/log": "~1.0",
-                "symfony/event-dispatcher": "~2.1|~3.0.0",
-                "symfony/process": "~2.1|~3.0.0"
+                "symfony/event-dispatcher": "~2.8|~3.0",
+                "symfony/process": "~2.8|~3.0"
             },
             "suggest": {
                 "psr/log": "For using the console logger",
@@ -386,7 +386,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.8-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -413,7 +413,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2015-11-04 00:47:19"
+            "time": "2015-11-18 13:48:51"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -473,25 +473,25 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "2.8.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "5ff00ea2999343d42398fcb793bbfc64c92235ff"
+                "reference": "e594d90fba4e4cddc146bdd3907126b1d74d7316"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/5ff00ea2999343d42398fcb793bbfc64c92235ff",
-                "reference": "5ff00ea2999343d42398fcb793bbfc64c92235ff",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/e594d90fba4e4cddc146bdd3907126b1d74d7316",
+                "reference": "e594d90fba4e4cddc146bdd3907126b1d74d7316",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9"
+                "php": ">=5.5.9"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.8-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -518,13 +518,16 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2015-11-05 09:04:44"
+            "time": "2015-11-18 13:48:51"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "symfony/console": 20,
+        "symfony/yaml": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

@@ -1,4 +1,9 @@
 parameters:
-  endpoint: "https://demo.survos.com/api1.0/"
-  username: "u"
-  password: "p"
+  target:
+    endpoint: "https://demo.survos.com/api1.0/"
+    username: "u"
+    password: "p"
+  source:
+    endpoint: "https://demo.survos.com/api1.0/"
+    username: "u"
+    password: "p"

@@ -17,6 +17,14 @@ use Symfony\Component\Yaml\Parser;
 class BaseCommand extends Command
 {
     protected $parameters;
+    /**
+     * @type SurvosClient
+     */
+    protected $client;
+    /**
+     * @type SurvosClient
+     */
+    protected $sourceClient;
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -32,6 +40,39 @@ class BaseCommand extends Command
             $output->writeln('<error>Config file could not be found or is not correct</error>');
             die();
         }
+
+        // configure target client
+        $this->client = new SurvosClient($this->parameters['target']['endpoint']);
+
+        if (!$this->client->authorize(
+            $this->parameters['target']['username'],
+            $this->parameters['target']['password']
+        )
+        ) {
+            $output->writeln(
+                "<error>Wrong credentials for target endpoint: {$this->parameters['target']['endpoint']}</error>"
+            );
+            die();
+        }
+
+        // configure source client (optional)
+        $this->sourceClient = null;
+
+        if ($this->parameters['source']) {
+            $this->sourceClient = new SurvosClient($this->parameters['source']['endpoint']);
+
+            if (!$this->sourceClient->authorize(
+                $this->parameters['source']['username'],
+                $this->parameters['source']['password']
+            )
+            ) {
+                $output->writeln(
+                    "<error>Wrong credentials for source endpoint: {$this->parameters['source']['endpoint']}</error>"
+                );
+                die();
+            }
+        }
+
     }
 
 }
