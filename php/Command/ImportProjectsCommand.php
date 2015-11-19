@@ -82,6 +82,7 @@ class ImportProjectsCommand extends BaseCommand
             }
 
             try {
+                /*
                 $res = $resource->save(
                     array_merge(
                         $params,
@@ -94,6 +95,7 @@ class ImportProjectsCommand extends BaseCommand
                         ]
                     )
                 );
+                */
             } catch (\Exception $e) {
                 printf("Error saving project: %s\n", $e->getMessage());
                 printf("Project $code already exists\n");
@@ -102,9 +104,10 @@ class ImportProjectsCommand extends BaseCommand
             $project = $projectResource->getByCode($code);
 
             $res = $resource->addModule($code, 'turk');
+            $staffAdmins = []; // ['tac','ho449']
 
             try {
-                foreach ([$code, 'tac', 'ho449'] as $idx => $username) {
+                foreach (array_merge([$code], $staffAdmins) as $idx => $username) {
                     $user = $userResource->getOneBy(['username' => $username]);
 
                     if (!$user) {
@@ -121,12 +124,12 @@ class ImportProjectsCommand extends BaseCommand
                     $member = $memberResource->getOneBy(['code' => $username, 'project_id' => $project['id']]);
                     if ($member) {
                         $output->writeln(
-                            "<error>Member '$username' already exists for project ".$project['id']."</error>"
+                            "<error>Member '$username' already exists for project ".$project['code']."</error>"
                         );
                         continue;
                     }
 
-                    print "Saving member '$username' for project ".$project['id']."\n";
+                    print "Saving member '$username' for project ".$project['code']."\n";
                     $res = $memberResource->save($params);
                 }
             } catch (Exception $e) {
