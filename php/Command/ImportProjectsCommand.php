@@ -31,6 +31,12 @@ class ImportProjectsCommand extends BaseCommand
                 'Server code'
             )
             ->addOption(
+                'project-code',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Project code'
+            )
+            ->addOption(
                 'timezone-id',
                 null,
                 InputOption::VALUE_OPTIONAL,
@@ -48,6 +54,7 @@ class ImportProjectsCommand extends BaseCommand
 
         $serverCode = $input->getOption('server-code');
         $timezoneId = $input->getOption('timezone-id');
+        $projectCode = $input->getOption('project-code');
 
         $client = new SurvosClient($this->parameters['endpoint']);
 
@@ -71,6 +78,10 @@ class ImportProjectsCommand extends BaseCommand
             //code,name,description,timezone_id
 
             $code = $row['code'];
+            if ($projectCode && ($code != $projectCode))
+            {
+                continue;
+            }
             $params = [];
             if ($project = $resource->getOneBy(['code' => $code])) {
                 $params['id'] = $project['id'];
@@ -106,7 +117,7 @@ class ImportProjectsCommand extends BaseCommand
                         print "user '$username' not found\n";
                         continue;
                     }
-                    
+
                     $params = [
                         'code'                 => $username,
                         'project_id'           => $project['id'],
