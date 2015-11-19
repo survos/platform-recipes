@@ -3,6 +3,7 @@
 namespace Command;
 
 use Command\Base\BaseCommand;
+use Survos\Client\Resource\SurveyResource;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -34,7 +35,7 @@ class ProjectsSummaryCommand extends BaseCommand
         parent::execute($input, $output);
         $projectResource = new ProjectResource($this->sourceClient);
         $memberResource = new MemberResource($this->sourceClient);
-        $sur
+        $surveyResource = new SurveyResource($this->sourceClient);
 
         $result = $projectResource->getList();
         foreach ($result['items'] as $idx => $project) {
@@ -47,15 +48,24 @@ class ProjectsSummaryCommand extends BaseCommand
                     $result['items']
                 )
             );
+            $result = $surveyResource->getList(1, 1000, ['project_id' => $project['id']]);
+            $surveys = implode(
+                "\n",
+                array_map(
+                    function ($survey) { return '"' . $survey['name'] . '"'; },
+                    $result['items']
+                )
+            );
             $data[] =
                 [
                     'code' => $projectCode,
-                    'owners' => $owners
+                    'owners' => $owners,
+                    'surveys' => $surveys,
                 ];
         }
         $table = new Table($output);
         $table
-            ->setHeaders(['code', 'owners'])
+            ->setHeaders(['code', 'owners', 'surveys'])
             ->setRows($data);
         $table->render();
     }
