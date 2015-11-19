@@ -10,5 +10,6 @@ use Command\GreetCommand;
 $application = new Application();
 $application->add(new \Command\ImportMembersCommand());
 $application->add(new \Command\ImportProjectsCommand());
+$application->add(new \Command\XferMembersCommand());
 $application->add(new \Command\ExampleCommand());
 $application->run();
