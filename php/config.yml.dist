@@ -1,0 +1,4 @@
+parameters:
+  endpoint: "https://demo.survos.com/api1.0/"
+  username: "u"
+  password: "p"
