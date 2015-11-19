@@ -41,6 +41,10 @@ class ExampleCommand extends BaseCommand
         $filename = $input->getArgument('filename');
         $otherOption = $input->getOption('other-option');
 
+        $projectResource = new ProjectResource($this->client);
+        $userResource = new UserResource($this->client);
+        $memberResource = new MemberResource($this->client);
+
         // write message to console
         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
             $output->writeln("add some verbose messages");

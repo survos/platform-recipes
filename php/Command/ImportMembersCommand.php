@@ -34,16 +34,10 @@ class ImportMembersCommand extends BaseCommand
 
         $name = $input->getArgument('filename');
 
-        $config = json_decode(file_get_contents(__DIR__.'/../config.json'), true);
 
-        $client = new SurvosClient($config['endpoint']);
-        if (!$client->authorize($config['username'], $config['password'])) {
-            $output->writeln('<err>Wrong credentials!</err>');
-        }
-
-        $projectResource = new ProjectResource($client);
-        $userResource = new UserResource($client);
-        $memberResource = new MemberResource($client);
+        $projectResource = new ProjectResource($this->client);
+        $userResource = new UserResource($this->client);
+        $memberResource = new MemberResource($this->client);
 
         $reader = new \EasyCSV\Reader('new_members.csv');
 
