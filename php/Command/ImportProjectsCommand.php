@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Survos\Client\SurvosClient;
 use Survos\Client\Resource\MemberResource;
 use Survos\Client\Resource\ProjectResource;
 use Survos\Client\Resource\UserResource;
@@ -56,21 +55,16 @@ class ImportProjectsCommand extends BaseCommand
         $timezoneId = $input->getOption('timezone-id');
         $projectCode = $input->getOption('project-code');
 
-        $client = new SurvosClient($this->parameters['endpoint']);
 
-        if (!$client->authorize($this->parameters['username'], $this->parameters['password'])) {
-            $output->writeln('<error>Wrong credentials</error>');
-            return;
-        }
 
-        $userResource = new UserResource($client);
+        $userResource = new UserResource($this->client);
         /** @type MemberResource $memberResource */
-        $memberResource = new MemberResource($client);
-        $projectResource = new ProjectResource($client);
+        $memberResource = new MemberResource($this->client);
+        $projectResource = new ProjectResource($this->client);
 
 
         /** @type ProjectResource $resource */
-        $resource = new ProjectResource($client);
+        $resource = new ProjectResource($this->client);
 
         $reader = new \EasyCSV\Reader($filename, 'r', true);
 
