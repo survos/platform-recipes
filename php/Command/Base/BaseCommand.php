@@ -52,7 +52,7 @@ class BaseCommand extends Command
             $output->writeln(
                 "<error>Wrong credentials for target endpoint: {$this->parameters['target']['endpoint']}</error>"
             );
-            die();
+            // die();
         }
 
         // configure source client (optional)
