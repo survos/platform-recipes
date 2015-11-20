@@ -33,6 +33,15 @@ class SummaryTasksCommand extends BaseCommand
                 InputOption::VALUE_OPTIONAL,
                 '',
                 100
+
+            )->addOption(
+                'task_type_code',
+                null,
+                InputOption::VALUE_OPTIONAL
+            )->addOption(
+                'deployment',
+                null,
+                InputOption::VALUE_OPTIONAL
             );
     }
 
@@ -50,11 +59,14 @@ class SummaryTasksCommand extends BaseCommand
         if ($projectCode) {
             $params['project_code'] = $projectCode;
         }
+        $criteria = [];
+        if ($taskTypeCode = $input->getOption('task_type_code')) {
+            $criteria['task_type_code'] = $taskTypeCode;
+        }
 
         $page = 0;
         $perPage = 10;
         $maxPages = 1;
-        $criteria = [];
         $data = [];
         $no = 1;
         while ($page < $maxPages) {
@@ -71,9 +83,14 @@ class SummaryTasksCommand extends BaseCommand
                     '#'                => $no,
                     'task_id'          => $task['id'],
                     'code'             => isset($task['code']) ? $task['code'] : '-',
+                    'wave_id'          => isset($task['wave_id']) ? $task['wave_id'] : '-',
                     'project_code'     => isset($task['project_code']) ? $task['project_code'] : '-',
                     'assignment_count' => isset($task['assignment_count']) ? $task['assignment_count'] : '-',
+                    'task_type_code'   => isset($task['task_type_code']) ? $task['task_type_code'] : '-',
                     'task_status_code' => isset($task['task_status_code']) ? $task['task_status_code'] : '-',
+                    'expiration_time'  => isset($task['expiration_time']) ? $task['expiration_time'] : '-',
+                    'reward'           => isset($task['reward']) ? $task['reward'] : '-',
+                    'max_assignments'  => isset($task['max_assignments']) ? $task['max_assignments'] : '-',
                 ];
                 $no++;
             }
@@ -82,14 +99,7 @@ class SummaryTasksCommand extends BaseCommand
         $table = new Table($output);
         $table
             ->setHeaders(
-                [
-                    '#',
-                    'task_id',
-                    'code',
-                    'project_code',
-                    'assignment_count',
-                    'task_status_code',
-                ]
+                array_keys(reset($data))
             )
             ->setRows($data);
         $table->render();
