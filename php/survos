@@ -13,7 +13,7 @@ $application->add(new \Command\ImportProjectsCommand());
 $application->add(new \Command\XferMembersCommand());
 //$application->add(new \Command\XferDataCommand());
 $application->add(new \Command\ExampleCommand());
-$application->add(new \Command\ProjectsSummaryCommand());
+$application->add(new \Command\SummaryProjectsCommand());
 $application->add(new \Command\SummaryUsersCommand());
 $application->add(new \Command\SummaryImagesCommand());
 $application->run();

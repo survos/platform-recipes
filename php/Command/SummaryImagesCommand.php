@@ -39,7 +39,6 @@ class SummaryImagesCommand extends BaseCommand
 
         $result = $imageResource->getList(1, 20, [], [], [], ['project_code' => $projectCode]);
         foreach ($result['items'] as $idx => $image) {
-
             $data[] =
                 [
                     'code' => isset($image['code']) ? $image['code'] : '',

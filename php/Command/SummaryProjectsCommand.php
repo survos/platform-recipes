@@ -13,7 +13,7 @@ use Survos\Client\Resource\ProjectResource;
 use Survos\Client\Resource\UserResource;
 use Symfony\Component\Console\Helper\Table;
 
-class ProjectsSummaryCommand extends BaseCommand
+class SummaryProjectsCommand extends BaseCommand
 {
     protected function configure()
     {
