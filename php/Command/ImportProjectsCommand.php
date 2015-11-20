@@ -104,7 +104,7 @@ class ImportProjectsCommand extends BaseCommand
             $project = $projectResource->getByCode($code);
 
             $res = $resource->addModule($code, 'turk');
-            $staffAdmins = []; // ['tac','ho449']
+            $staffAdmins = ['tac','ho449'];
 
             try {
                 foreach (array_merge([$code], $staffAdmins) as $idx => $username) {

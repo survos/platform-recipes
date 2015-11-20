@@ -14,7 +14,7 @@ use Survos\Client\Resource\ProjectResource;
 use Survos\Client\Resource\UserResource;
 
 
-class SummaryMembersCommand extends BaseCommand
+class MemberListCommand extends BaseCommand
 {
     protected function configure()
     {
