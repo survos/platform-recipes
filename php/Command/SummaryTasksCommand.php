@@ -99,32 +99,16 @@ class SummaryTasksCommand extends BaseCommand
                 break;
             }
 
-            foreach ($tasks['items'] as $key => $task) {
+            foreach ($tasks['items'] as $task) {
+                $taskData = [];
                 foreach ($keys as $key=>$default)
                 {
                     $taskData[$key] = isset($task[$key]) ? $task[$key] : $default;
                 }
-                // $taskData['#'] = $no;
-                // $taskData = $resolver->resolve($task);
-
-
-                $data[] = [
-                    '#' => $no,
-                    'task_id' => $task['id'],
-                    'code' => isset($task['code']) ? $task['code'] : '-',
-                    'wave_id' => isset($task['wave_id']) ? $task['wave_id'] : '-',
-                    'project_code' => isset($task['project_code']) ? $task['project_code'] : '-',
-                    'assignment_count' => isset($task['assignment_count']) ? $task['assignment_count'] : '-',
-                    'task_type_code' => isset($task['task_type_code']) ? $task['task_type_code'] : '-',
-                    'task_status_code' => isset($task['task_status_code']) ? $task['task_status_code'] : '-',
-                    'expiration_time' => isset($task['expiration_time']) ? $task['expiration_time'] : '-',
-                    'reward' => isset($task['reward']) ? $task['reward'] : '-',
-                    'max_assignments' => isset($task['max_assignments']) ? $task['max_assignments'] : '-',
-                ];
+                $taskData['no'] = $no;
+                $table->addRow($taskData);
                 $no++;
             }
-            $table
-                ->addRow($taskData);
 
             $table->render();
         }
