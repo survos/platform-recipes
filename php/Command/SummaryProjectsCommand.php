@@ -44,7 +44,7 @@ class ProjectsSummaryCommand extends BaseCommand
             $owners = implode(
                 ', ',
                 array_map(
-                    function ($member) { return $member['code']; },
+                    function ($member) { return isset($member['code'])?$member['code']:('#'.$member['id']); },
                     $result['items']
                 )
             );
