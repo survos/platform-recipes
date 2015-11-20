@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "206df967599cdd551a5a384b0a49a6f2",
-    "content-hash": "79953b9dc9399290d83bdfc879b293ac",
+    "hash": "a3d31fd08e3510edb5e5bde54b915307",
+    "content-hash": "006aef6df574bd46604305d2bc0fbc21",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -327,16 +327,16 @@
         },
         {
             "name": "survos/platform-api-php",
-            "version": "1.1.12",
+            "version": "1.1.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/platform-api-php.git",
-                "reference": "28ab961f345bde87ae6e9426e5e880d449a921b9"
+                "reference": "e551dbf9bbcd51bff9eda17e03c4ca1bc52c616f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/survos/platform-api-php/zipball/28ab961f345bde87ae6e9426e5e880d449a921b9",
-                "reference": "28ab961f345bde87ae6e9426e5e880d449a921b9",
+                "url": "https://api.github.com/repos/survos/platform-api-php/zipball/e551dbf9bbcd51bff9eda17e03c4ca1bc52c616f",
+                "reference": "e551dbf9bbcd51bff9eda17e03c4ca1bc52c616f",
                 "shasum": ""
             },
             "require": {
@@ -353,7 +353,7 @@
                 "proprietary"
             ],
             "description": "Survos php api client",
-            "time": "2015-11-19 22:03:54"
+            "time": "2015-11-20 17:29:35"
         },
         {
             "name": "symfony/console",

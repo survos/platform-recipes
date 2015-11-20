@@ -14,6 +14,8 @@ $application->add(new \Command\ImportProjectsCommand());
 $application->add(new \Command\XferMembersCommand());
 //$application->add(new \Command\XferDataCommand());
 $application->add(new \Command\ExampleCommand());
+$application->add(new \Command\SummaryWavesCommand());
+$application->add(new \Command\SummaryTasksCommand());
 $application->add(new \Command\SummaryProjectsCommand());
 $application->add(new \Command\SummaryMembersCommand());
 $application->add(new \Command\SummaryUsersCommand());
