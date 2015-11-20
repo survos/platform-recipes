@@ -120,6 +120,7 @@ class ImportProjectsCommand extends BaseCommand
                         'project_id'           => $project['id'],
                         'user_id'              => $user['id'],
                         'permission_type_code' => 'owner',
+                        'enrollment_status_code' => 'notenrolled'
                     ];
                     $member = $memberResource->getOneBy(['code' => $username, 'project_id' => $project['id']]);
                     if ($member) {

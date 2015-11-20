@@ -14,13 +14,14 @@ use Survos\Client\Resource\MemberResource;
 use Survos\Client\Resource\ProjectResource;
 use Survos\Client\Resource\UserResource;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SummaryTasksCommand extends BaseCommand
 {
     protected function configure()
     {
         $this
-            ->setName('summary:tasks')
+            ->setName('task:summary')
             ->setDescription('Show basic summary for tasks')
             ->addOption(
                 'project-code',
@@ -65,43 +66,67 @@ class SummaryTasksCommand extends BaseCommand
         }
 
         $page = 0;
-        $perPage = 10;
+        $perPage = 100;
         $maxPages = 1;
         $data = [];
         $no = 1;
+
+        $resolver = new OptionsResolver();
+        $resolver->setDefaults($keys=[
+            'no' => null,
+            'code' => '',
+            'wave_id' => null,
+            'project_code' => null,
+            'assignment_count' => null,
+            'task_type_code' => null,
+            'task_status_code' => null,
+            'expiration_time' => null,
+            'reward' => null,
+            'max_assignments' => null
+        ]);
+        $table = new Table($output);
+        $table
+            ->setHeaders(
+                array_keys($keys)
+            );
+
         while ($page < $maxPages) {
             $tasks = $tasksResource->getList(++$page, $perPage, $criteria, [], [], $params);
             $maxPages = $tasks['pages'];
             // if no items, return
+            printf("Items: %d of Total: %d, Limit: $limit, No: $no\n", count($tasks['items']), $tasks['total']);
             if (!count($tasks['items']) || !$tasks['total'] || ($limit > 0 && $no > $limit)) {
                 break;
             }
 
             foreach ($tasks['items'] as $key => $task) {
+                foreach ($keys as $key=>$default)
+                {
+                    $taskData[$key] = isset($task[$key]) ? $task[$key] : $default;
+                }
+                // $taskData['#'] = $no;
+                // $taskData = $resolver->resolve($task);
+
 
                 $data[] = [
-                    '#'                => $no,
-                    'task_id'          => $task['id'],
-                    'code'             => isset($task['code']) ? $task['code'] : '-',
-                    'wave_id'          => isset($task['wave_id']) ? $task['wave_id'] : '-',
-                    'project_code'     => isset($task['project_code']) ? $task['project_code'] : '-',
+                    '#' => $no,
+                    'task_id' => $task['id'],
+                    'code' => isset($task['code']) ? $task['code'] : '-',
+                    'wave_id' => isset($task['wave_id']) ? $task['wave_id'] : '-',
+                    'project_code' => isset($task['project_code']) ? $task['project_code'] : '-',
                     'assignment_count' => isset($task['assignment_count']) ? $task['assignment_count'] : '-',
-                    'task_type_code'   => isset($task['task_type_code']) ? $task['task_type_code'] : '-',
+                    'task_type_code' => isset($task['task_type_code']) ? $task['task_type_code'] : '-',
                     'task_status_code' => isset($task['task_status_code']) ? $task['task_status_code'] : '-',
-                    'expiration_time'  => isset($task['expiration_time']) ? $task['expiration_time'] : '-',
-                    'reward'           => isset($task['reward']) ? $task['reward'] : '-',
-                    'max_assignments'  => isset($task['max_assignments']) ? $task['max_assignments'] : '-',
+                    'expiration_time' => isset($task['expiration_time']) ? $task['expiration_time'] : '-',
+                    'reward' => isset($task['reward']) ? $task['reward'] : '-',
+                    'max_assignments' => isset($task['max_assignments']) ? $task['max_assignments'] : '-',
                 ];
                 $no++;
             }
-        }
+            $table
+                ->addRow($taskData);
 
-        $table = new Table($output);
-        $table
-            ->setHeaders(
-                array_keys(reset($data))
-            )
-            ->setRows($data);
-        $table->render();
+            $table->render();
+        }
     }
 }
