@@ -33,9 +33,8 @@ class UserDailySummaryCommand extends BaseCommand
             )->addOption(
                 'date',
                 null,
-                InputOption::VALUE_REQUIRED,
-                'date (YYYY-MM-DD)',
-                date('Y-m-d')
+                InputOption::VALUE_OPTIONAL,
+                'date (YYYY-MM-DD)'
             )->addOption(
                 'format',
                 null,
@@ -55,9 +54,12 @@ class UserDailySummaryCommand extends BaseCommand
         $output->writeln("Getting locations for user {$username} and {$date}");
 
         $userResource = new UserResource($this->sourceClient);
-        $criteria = [
-            'date' => $date,
-        ];
+        $criteria = [];
+
+        if ($date) {
+            $criteria['date'] = $date;
+        }
+
         if ($username) {
             $user = $userResource->getOneBy(['username' => $username]);
             if (!$user) {
@@ -74,5 +76,13 @@ class UserDailySummaryCommand extends BaseCommand
         );
 
         $this->printResponse($input->getOption('format'), $result['items'], $output);
+    }
+
+    /**
+     * @param $data
+     */
+    protected function processRow(&$data)
+    {
+        unset($data['lines_geojson']);
     }
 }

@@ -82,6 +82,7 @@ class BaseCommand extends Command
 
         $columns = [];
         foreach ($data as $line) {
+            $this->processRow($line);
             $columns = array_unique(array_merge($columns, array_keys($line)));
         }
         // make sure all rows have the same columns
@@ -91,6 +92,7 @@ class BaseCommand extends Command
             foreach ($columns as $column) {
                 $row[$column] = isset($line[$column]) ? $line[$column] : '';
             }
+
             $output[] = $row;
         }
         $table
@@ -113,6 +115,11 @@ class BaseCommand extends Command
     {
         $method = "print".ucfirst($format)."Response";
         $this->$method($data, $output);
+    }
+
+    protected function processRow(&$data)
+    {
+
     }
 
 }
