@@ -21,4 +21,5 @@ $application->add(new \Command\MemberListCommand());
 $application->add(new \Command\SummaryUsersCommand());
 $application->add(new \Command\SummaryImagesCommand());
 $application->add(new \Command\TrackingIntervalCommand());
+$application->add(new \Command\UserDailySummaryCommand());
 $application->run();

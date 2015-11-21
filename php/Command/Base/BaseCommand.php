@@ -3,6 +3,7 @@
 namespace Command\Base;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -73,6 +74,45 @@ class BaseCommand extends Command
             }
         }
 
+    }
+
+    protected function printTableResponse(array $data, OutputInterface $output)
+    {
+        $table = new Table($output);
+
+        $columns = [];
+        foreach ($data as $line) {
+            $columns = array_unique(array_merge($columns, array_keys($line)));
+        }
+        // make sure all rows have the same columns
+        $output = [];
+        foreach ($data as $line) {
+            $row = [];
+            foreach ($columns as $column) {
+                $row[$column] = isset($line[$column]) ? $line[$column] : '';
+            }
+            $output[] = $row;
+        }
+        $table
+            ->setHeaders($columns)
+            ->addRows($output)
+            ->render();
+    }
+
+    protected function printJsonResponse(array $data, OutputInterface $output)
+    {
+        $output->write(json_encode($data));
+    }
+
+    /**
+     * @param string                                            $format
+     * @param array                                             $data
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     */
+    protected function printResponse($format = 'table', array $data, OutputInterface $output)
+    {
+        $method = "print".ucfirst($format)."Response";
+        $this->$method($data, $output);
     }
 
 }
