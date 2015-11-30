@@ -3,8 +3,8 @@
 namespace Command;
 
 use Command\Base\BaseCommand;
+use Survos\Client\Resource\DataImageResource;
 use Survos\Client\Resource\SurveyResource;
-use Survos\Client\Resource\WaveResource;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,13 +14,13 @@ use Survos\Client\Resource\ProjectResource;
 use Survos\Client\Resource\UserResource;
 use Symfony\Component\Console\Helper\Table;
 
-class SummaryWavesCommand extends BaseCommand
+class ImagesSummaryCommand extends BaseCommand
 {
     protected function configure()
     {
         $this
-            ->setName('summary:waves')
-            ->setDescription('Show basic summary for waves')
+            ->setName('images:summary')
+            ->setDescription('Show basic summary of image data')
             ->addOption(
                 'project-code',
                 null,
@@ -33,25 +33,22 @@ class SummaryWavesCommand extends BaseCommand
     {
         // important don't remove
         parent::execute($input, $output);
-        $projectResource = new ProjectResource($this->sourceClient);
-        $wavesResource = new WaveResource($this->sourceClient);
+        $projectCode = $input->getOption('project-code');
 
-        $result = $wavesResource->getList();
-        foreach ($result['items'] as $idx => $wave) {
+        $imageResource = new DataImageResource($this->sourceClient);
 
+        $result = $imageResource->getList(1, 20, [], [], [], ['project_code' => $projectCode]);
+        foreach ($result['items'] as $idx => $image) {
             $data[] =
                 [
-                    'wave_id'         => $wave['id'],
-                    'task_count'      => $wave['task_count'],
-                    'survey'          => '',
-                    'questions'       => '',
-                    'payment'         => isset($wave['reward'])?$wave['reward']:'',
-                    'max_assignments' => '',
+                    'code' => isset($image['code']) ? $image['code'] : '',
+                    'name' => isset($image['name']) ? $image['name'] : '',
+                    'image_url'  => isset($image['image_url']) ? $image['image_url'] : '',
                 ];
         }
         $table = new Table($output);
         $table
-            ->setHeaders(['wave_id', 'task_id', 'survey', 'questions', 'payment', 'max_assignments'])
+            ->setHeaders(['code', 'name', 'url'])
             ->setRows($data);
         $table->render();
     }

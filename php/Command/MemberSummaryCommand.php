@@ -14,13 +14,13 @@ use Survos\Client\Resource\ProjectResource;
 use Survos\Client\Resource\UserResource;
 
 
-class MemberListCommand extends BaseCommand
+class MemberSummaryCommand extends BaseCommand
 {
     protected function configure()
     {
         parent::configure();
         $this
-            ->setName('summary:members')
+            ->setName('members:summary')
             ->setDescription('Show members summary')
             ->addOption(
                 'project-code',

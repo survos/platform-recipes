@@ -12,12 +12,12 @@ use Survos\Client\Resource\ProjectResource;
 use Survos\Client\Resource\UserResource;
 use Symfony\Component\Console\Helper\Table;
 
-class SummaryUsersCommand extends BaseCommand
+class UsersSummaryCommand extends BaseCommand
 {
     protected function configure()
     {
         $this
-            ->setName('summary:users')
+            ->setName('users:summary')
             ->setDescription('Show basic summary of users')
         ;
     }

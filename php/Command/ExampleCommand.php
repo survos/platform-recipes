@@ -17,7 +17,7 @@ class ExampleCommand extends BaseCommand
     protected function configure()
     {
         $this
-            ->setName('import:example')
+            ->setName('example:import')
             ->setDescription('Command example')
             ->addArgument(
                 'filename',

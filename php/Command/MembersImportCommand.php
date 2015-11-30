@@ -12,13 +12,13 @@ use Survos\Client\Resource\ProjectResource;
 use Survos\Client\Resource\UserResource;
 
 
-class ImportMembersCommand extends BaseCommand
+class MembersImportCommand extends BaseCommand
 {
     protected function configure()
     {
         parent::configure();
         $this
-            ->setName('import:members')
+            ->setName('members:import')
             ->setDescription('Import members from CSV file')
             ->addArgument(
                 'filename',

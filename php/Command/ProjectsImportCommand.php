@@ -11,12 +11,12 @@ use Survos\Client\Resource\MemberResource;
 use Survos\Client\Resource\ProjectResource;
 use Survos\Client\Resource\UserResource;
 
-class ImportProjectsCommand extends BaseCommand
+class ProjectsImportCommand extends BaseCommand
 {
     protected function configure()
     {
         $this
-            ->setName('import:projects')
+            ->setName('projects:import')
             ->setDescription('Import projects from CSV file')
             ->addArgument(
                 'filename',

@@ -16,7 +16,7 @@ use Survos\Client\Resource\UserResource;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SummaryTasksCommand extends BaseCommand
+class TasksSummaryCommand extends BaseCommand
 {
     protected function configure()
     {

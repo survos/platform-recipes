@@ -18,12 +18,12 @@ use Survos\Client\Resource\UserResource;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserDailySummaryCommand extends BaseCommand
+class UsersDailySummaryCommand extends BaseCommand
 {
     protected function configure()
     {
         $this
-            ->setName('user:daily-summary')
+            ->setName('users:daily-summary')
             ->setDescription('Print daily summary for user and day')
             ->addOption(
                 'user',

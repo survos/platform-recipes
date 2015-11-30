@@ -13,12 +13,12 @@ use Survos\Client\Resource\ProjectResource;
 use Survos\Client\Resource\UserResource;
 use Symfony\Component\Console\Helper\Table;
 
-class ProjectListCommand extends BaseCommand
+class ProjectsListCommand extends BaseCommand
 {
     protected function configure()
     {
         $this
-            ->setName('project:list')
+            ->setName('projects:list')
             ->setDescription('Show basic summary of a project')
             ->addOption(
                 'project-code',

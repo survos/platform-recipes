@@ -4,14 +4,9 @@ namespace Command\Base;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Survos\Client\SurvosClient;
-use Survos\Client\Resource\MemberResource;
-use Survos\Client\Resource\ProjectResource;
-use Survos\Client\Resource\UserResource;
 use Symfony\Component\Yaml\Parser;
 
 
