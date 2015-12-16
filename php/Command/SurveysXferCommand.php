@@ -69,7 +69,7 @@ class SurveysXferCommand extends BaseCommand
         $survey = $fromSurveyResource->getByCode($sourceSurvey, ['project_code' => $sourceProject]);
         $surveyJson = $fromSurveyResource->getExportJson($survey['id']);
 
-        $toSurveyResource->save($survey);
+        $toSurveyResource->import($surveyJson);
 //        if (!$project) {
 //            $output->writeln(
 //                "<error>Target project {$targetProject} not found</error>"

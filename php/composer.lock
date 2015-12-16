@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "a21d3ccb7ea39a5256079adaa7f0901fde02a5b0"
+                "reference": "2e5c595512de4885435eaff24b67066769b64b34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/a21d3ccb7ea39a5256079adaa7f0901fde02a5b0",
-                "reference": "a21d3ccb7ea39a5256079adaa7f0901fde02a5b0",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/2e5c595512de4885435eaff24b67066769b64b34",
+                "reference": "2e5c595512de4885435eaff24b67066769b64b34",
                 "shasum": ""
             },
             "require": {
@@ -67,7 +67,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2015-11-15 09:29:07"
+            "time": "2015-12-01 02:41:23"
         },
         {
             "name": "guzzlehttp/promises",
@@ -327,16 +327,16 @@
         },
         {
             "name": "survos/platform-api-php",
-            "version": "1.1.15",
+            "version": "1.1.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/platform-api-php.git",
-                "reference": "bb6602b73ce792227cc9556487098f8478d3a845"
+                "reference": "06d923f706fd0c34e5bcdb8c2c673b1aabde566d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/survos/platform-api-php/zipball/bb6602b73ce792227cc9556487098f8478d3a845",
-                "reference": "bb6602b73ce792227cc9556487098f8478d3a845",
+                "url": "https://api.github.com/repos/survos/platform-api-php/zipball/06d923f706fd0c34e5bcdb8c2c673b1aabde566d",
+                "reference": "06d923f706fd0c34e5bcdb8c2c673b1aabde566d",
                 "shasum": ""
             },
             "require": {
@@ -353,7 +353,7 @@
                 "proprietary"
             ],
             "description": "Survos php api client",
-            "time": "2015-11-21 13:13:19"
+            "time": "2015-12-16 11:59:36"
         },
         {
             "name": "symfony/console",
@@ -361,12 +361,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "6f1ca4f709c3ff35e19476cf9a6c4d17ae650008"
+                "reference": "ff96711b696b2f6ee7cb8a0f0348084709207138"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/6f1ca4f709c3ff35e19476cf9a6c4d17ae650008",
-                "reference": "6f1ca4f709c3ff35e19476cf9a6c4d17ae650008",
+                "url": "https://api.github.com/repos/symfony/console/zipball/ff96711b696b2f6ee7cb8a0f0348084709207138",
+                "reference": "ff96711b696b2f6ee7cb8a0f0348084709207138",
                 "shasum": ""
             },
             "require": {
@@ -386,7 +386,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "3.1-dev"
                 }
             },
             "autoload": {
@@ -413,7 +413,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2015-11-18 13:48:51"
+            "time": "2015-12-15 02:03:25"
         },
         {
             "name": "symfony/options-resolver",
@@ -421,12 +421,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "8e68c053a39e26559357cc742f01a7182ce40785"
+                "reference": "0fb705c94d78e3f6b151f8e0b68c4bae89a13c51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/8e68c053a39e26559357cc742f01a7182ce40785",
-                "reference": "8e68c053a39e26559357cc742f01a7182ce40785",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/0fb705c94d78e3f6b151f8e0b68c4bae89a13c51",
+                "reference": "0fb705c94d78e3f6b151f8e0b68c4bae89a13c51",
                 "shasum": ""
             },
             "require": {
@@ -435,7 +435,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "3.1-dev"
                 }
             },
             "autoload": {
@@ -467,7 +467,7 @@
                 "configuration",
                 "options"
             ],
-            "time": "2015-11-18 13:48:51"
+            "time": "2015-11-30 21:39:17"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -475,16 +475,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "0b6a8940385311a24e060ec1fe35680e17c74497"
+                "reference": "49ff736bd5d41f45240cec77b44967d76e0c3d25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/0b6a8940385311a24e060ec1fe35680e17c74497",
-                "reference": "0b6a8940385311a24e060ec1fe35680e17c74497",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/49ff736bd5d41f45240cec77b44967d76e0c3d25",
+                "reference": "49ff736bd5d41f45240cec77b44967d76e0c3d25",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-mbstring": "For best performance"
             },
             "type": "library",
             "extra": {
@@ -523,7 +526,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2015-11-04 20:28:58"
+            "time": "2015-11-20 09:19:13"
         },
         {
             "name": "symfony/yaml",
@@ -531,12 +534,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "e594d90fba4e4cddc146bdd3907126b1d74d7316"
+                "reference": "8bae579c7afa252c055855f071c751eb75dcf6c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/e594d90fba4e4cddc146bdd3907126b1d74d7316",
-                "reference": "e594d90fba4e4cddc146bdd3907126b1d74d7316",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/8bae579c7afa252c055855f071c751eb75dcf6c4",
+                "reference": "8bae579c7afa252c055855f071c751eb75dcf6c4",
                 "shasum": ""
             },
             "require": {
@@ -545,7 +548,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "3.1-dev"
                 }
             },
             "autoload": {
@@ -572,7 +575,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2015-11-18 13:48:51"
+            "time": "2015-12-05 11:13:35"
         }
     ],
     "packages-dev": [],
