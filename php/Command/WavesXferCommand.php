@@ -76,8 +76,22 @@ class WavesXferCommand extends BaseCommand
         $sourceProject = $projectResource->getByCode($sourceProjectCode);
         $targetProject = $projectResource->getByCode($targetProjectCode);
 
-        $wave = $fromWaveResource->getById($sourceWaveId);
-
+        if (!$sourceProject) {
+            $output->writeln("<error>Project '{$sourceProjectCode}' not found</error>");
+            exit;
+        }
+        if (!$targetProject) {
+            $output->writeln("<error>Project '{$targetProjectCode}' not found</error>");
+            exit;
+        }
+        try {
+            $wave = $fromWaveResource->getById($sourceWaveId);
+        } catch (\Exception $e) {
+            if (!isset($wave)) {
+                $output->writeln("<error>Wave #{$sourceWaveId} not found</error>");
+                exit;
+            }
+        }
         // if no target job code set - use current job
         if (!$targetJobCode) {
             $targetJobCode = $wave['job_code'];
@@ -90,7 +104,7 @@ class WavesXferCommand extends BaseCommand
             ]
         );
         if (!$job) {
-            throw new \Exception("$job '{$targetJobCode}' not found in project '{$targetProject['code']}'");
+            throw new \Exception("job '{$targetJobCode}' not found in project '{$targetProject['code']}'");
         }
         // update target job ID
         // find job ID, then update wave data
