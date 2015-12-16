@@ -15,6 +15,8 @@ $application->add(new \Command\XferMembersCommand());
 //$application->add(new \Command\XferDataCommand());
 $application->add(new \Command\ExampleCommand());
 $application->add(new \Command\WavesSummaryCommand());
+$application->add(new \Command\WavesXferCommand());
+$application->add(new \Command\SurveysXferCommand());
 $application->add(new \Command\TasksSummaryCommand());
 $application->add(new \Command\ProjectsListCommand());
 $application->add(new \Command\MemberSummaryCommand());
