@@ -327,16 +327,16 @@
         },
         {
             "name": "survos/platform-api-php",
-            "version": "1.1.18",
+            "version": "1.1.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/platform-api-php.git",
-                "reference": "06d923f706fd0c34e5bcdb8c2c673b1aabde566d"
+                "reference": "a7ef858a42338d842a31bddf89e89ad922870ee7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/survos/platform-api-php/zipball/06d923f706fd0c34e5bcdb8c2c673b1aabde566d",
-                "reference": "06d923f706fd0c34e5bcdb8c2c673b1aabde566d",
+                "url": "https://api.github.com/repos/survos/platform-api-php/zipball/a7ef858a42338d842a31bddf89e89ad922870ee7",
+                "reference": "a7ef858a42338d842a31bddf89e89ad922870ee7",
                 "shasum": ""
             },
             "require": {
@@ -353,7 +353,7 @@
                 "proprietary"
             ],
             "description": "Survos php api client",
-            "time": "2015-12-16 11:59:36"
+            "time": "2015-12-16 14:39:36"
         },
         {
             "name": "symfony/console",

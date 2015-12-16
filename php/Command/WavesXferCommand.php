@@ -58,6 +58,22 @@ class WavesXferCommand extends BaseCommand
 
         $sourceProjectCode = $input->getOption('source-project-code');
         $targetProjectCode = $input->getOption('target-project-code');
+
+        $sourceProjectResource = new ProjectResource($this->sourceClient);
+        $projectResource = new ProjectResource($this->client);
+
+        $sourceProject = $sourceProjectResource->getByCode($sourceProjectCode);
+        $targetProject = $projectResource->getByCode($targetProjectCode);
+
+        if (!$sourceProject) {
+            $output->writeln("<error>Project '{$sourceProjectCode}' not found</error>");
+            exit;
+        }
+        if (!$targetProject) {
+            $output->writeln("<error>Project '{$targetProjectCode}' not found</error>");
+            exit;
+        }
+
         if (!$targetProjectCode) {
             $targetProjectCode = $sourceProjectCode;
         }
@@ -71,19 +87,7 @@ class WavesXferCommand extends BaseCommand
         $fromWaveResource = new WaveResource($this->sourceClient);
         /** @type WaveResource $toWaveResource */
         $toWaveResource = new WaveResource($this->client);
-        $projectResource = new ProjectResource($this->client);
 
-        $sourceProject = $projectResource->getByCode($sourceProjectCode);
-        $targetProject = $projectResource->getByCode($targetProjectCode);
-
-        if (!$sourceProject) {
-            $output->writeln("<error>Project '{$sourceProjectCode}' not found</error>");
-            exit;
-        }
-        if (!$targetProject) {
-            $output->writeln("<error>Project '{$targetProjectCode}' not found</error>");
-            exit;
-        }
         try {
             $wave = $fromWaveResource->getById($sourceWaveId);
         } catch (\Exception $e) {

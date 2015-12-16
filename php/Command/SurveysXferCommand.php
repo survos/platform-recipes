@@ -31,20 +31,14 @@ class SurveysXferCommand extends BaseCommand
             ->addOption(
                 'target-project-code',
                 null,
-                InputOption::VALUE_REQUIRED,
+                InputOption::VALUE_OPTIONAL,
                 'Target project code'
             )
             ->addOption(
-                'source-survey-code',
+                'source-survey-id',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Source survey code'
-            )
-            ->addOption(
-                'target-survey-code',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Target survey code'
+                'Source survey ID'
             );
     }
 
@@ -54,29 +48,44 @@ class SurveysXferCommand extends BaseCommand
         parent::execute($input, $output);
         $isVerbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
 
-        $sourceProject = $input->getOption('source-project-code');
-        $targetProject = $input->getOption('target-project-code');
+        $sourceProjectCode = $input->getOption('source-project-code');
+        $targetProjectCode = $input->getOption('target-project-code');
 
-        $sourceSurvey = $input->getOption('source-survey-code');
-        $targetSurvey = $input->getOption('target-survey-code');
+        $sourceProjectResource = new ProjectResource($this->sourceClient);
+        $projectResource = new ProjectResource($this->client);
+
+        $sourceProject = $sourceProjectResource->getByCode($sourceProjectCode);
+        $targetProject = $projectResource->getByCode($targetProjectCode);
+
+        if (!$sourceProject) {
+            $output->writeln("<error>Project '{$sourceProjectCode}' not found</error>");
+            exit;
+        }
+        if (!$targetProject) {
+            $output->writeln("<error>Project '{$targetProjectCode}' not found</error>");
+            exit;
+        }
+
+        $sourceSurveyId = $input->getOption('source-survey-id');
 
         /** @type SurveyResource $fromSurveyResource */
         $fromSurveyResource = new SurveyResource($this->sourceClient);
         $toSurveyResource = new SurveyResource($this->client);
-        $projectResource = new ProjectResource($this->client);
-        $project = $projectResource->getByCode($targetProject);
 
-        $survey = $fromSurveyResource->getByCode($sourceSurvey, ['project_code' => $sourceProject]);
+        $survey = $fromSurveyResource->getById($sourceSurveyId);
         $surveyJson = $fromSurveyResource->getExportJson($survey['id']);
 
-        $toSurveyResource->import($surveyJson);
-//        if (!$project) {
-//            $output->writeln(
-//                "<error>Target project {$targetProject} not found</error>"
-//            );
-//            die();
-//        }
-
+        $result = $toSurveyResource->importSurvey(
+            [
+                'import_data'   => $surveyJson,
+                'name'          => $survey['name'],
+                'code'          => $survey['code'],
+                'project_id'    => $targetProject['id'],
+                'category_code' => $survey['category_code'],
+                'description'   => $survey['description'],
+            ]
+        );
+        $output->writeln("Sruvey {$result['code']} #{$result['id']} transferred");
 
 
     }
