@@ -29,12 +29,7 @@ class MembersImportCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // important don't remove
-        parent::execute($input, $output);
-
         $name = $input->getArgument('filename');
-
-
         $projectResource = new ProjectResource($this->client);
         $userResource = new UserResource($this->client);
         $memberResource = new MemberResource($this->client);

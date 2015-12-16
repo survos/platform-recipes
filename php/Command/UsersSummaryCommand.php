@@ -24,8 +24,6 @@ class UsersSummaryCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // important don't remove
-        parent::execute($input, $output);
         $userResource = new UserResource($this->sourceClient);
 
         $result = $userResource->getList(1, 1000);

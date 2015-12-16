@@ -38,9 +38,6 @@ class XferDataCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // important don't remove
-        parent::execute($input, $output);
-
         $output->writeln("<error>Command not implemented yet</error>");
         die();
         $isVerbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;

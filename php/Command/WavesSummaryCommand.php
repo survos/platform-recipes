@@ -31,8 +31,6 @@ class WavesSummaryCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // important don't remove
-        parent::execute($input, $output);
         $projectResource = new ProjectResource($this->sourceClient);
         $wavesResource = new WaveResource($this->sourceClient);
 

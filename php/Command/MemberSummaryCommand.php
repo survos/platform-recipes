@@ -38,8 +38,6 @@ class MemberSummaryCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // important don't remove
-        parent::execute($input, $output);
         $isVerbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
         $projectCode = $input->getOption('project-code');
         $enrollmentStatusCode = $input->getOption('enrollment-status-code');

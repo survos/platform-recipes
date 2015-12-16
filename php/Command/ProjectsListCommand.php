@@ -31,8 +31,6 @@ class ProjectsListCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // important don't remove
-        parent::execute($input, $output);
         $projectResource = new ProjectResource($this->sourceClient);
         $memberResource = new MemberResource($this->sourceClient);
         $surveyResource = new SurveyResource($this->sourceClient);

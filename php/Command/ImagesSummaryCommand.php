@@ -31,8 +31,6 @@ class ImagesSummaryCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // important don't remove
-        parent::execute($input, $output);
         $projectCode = $input->getOption('project-code');
 
         $imageResource = new DataImageResource($this->sourceClient);

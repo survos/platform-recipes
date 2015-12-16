@@ -32,8 +32,6 @@ class MembersAcceptCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // important don't remove
-        parent::execute($input, $output);
         $isVerbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
         $projectCode = $input->getOption('project-code');
 

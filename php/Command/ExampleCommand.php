@@ -34,9 +34,6 @@ class ExampleCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // important don't remove
-        parent::execute($input, $output);
-
         // read arguments/options
         $filename = $input->getArgument('filename');
         $otherOption = $input->getOption('other-option');

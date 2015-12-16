@@ -50,8 +50,6 @@ class SurveysXferCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // important don't remove
-        parent::execute($input, $output);
         $isVerbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
 
         $sourceProjectCode = $input->getOption('source-project-code');

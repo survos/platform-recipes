@@ -22,7 +22,7 @@ class BaseCommand extends Command
      */
     protected $sourceClient;
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $yaml = new Parser();
 
