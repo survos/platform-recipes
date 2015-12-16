@@ -39,6 +39,12 @@ class SurveysXferCommand extends BaseCommand
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Source survey ID'
+            )
+            ->addOption(
+                'target-survey-code',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Target survey code'
             );
     }
 
@@ -50,6 +56,7 @@ class SurveysXferCommand extends BaseCommand
 
         $sourceProjectCode = $input->getOption('source-project-code');
         $targetProjectCode = $input->getOption('target-project-code');
+        $targetSurveyCode = $input->getOption('target-survey-code');
 
         $sourceProjectResource = new ProjectResource($this->sourceClient);
         $projectResource = new ProjectResource($this->client);
@@ -74,6 +81,9 @@ class SurveysXferCommand extends BaseCommand
 
         $survey = $fromSurveyResource->getById($sourceSurveyId);
         $surveyJson = $fromSurveyResource->getExportJson($survey['id']);
+        if ($targetSurveyCode) {
+            $surveyJson['code'] = $targetSurveyCode;
+        }
 
         $result = $toSurveyResource->importSurvey(
             [
@@ -85,7 +95,7 @@ class SurveysXferCommand extends BaseCommand
                 'description'   => $survey['description'],
             ]
         );
-        $output->writeln("Sruvey {$result['code']} #{$result['id']} transferred");
+        $output->writeln("Survey {$result['code']} #{$result['id']} transferred");
 
 
     }
