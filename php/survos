@@ -24,4 +24,5 @@ $application->add(new \Command\UsersSummaryCommand());
 $application->add(new \Command\ImagesSummaryCommand());
 $application->add(new \Command\TrackingIntervalCommand());
 $application->add(new \Command\UsersDailySummaryCommand());
+$application->add(new \Command\XferLocationsCommand());
 $application->run();
