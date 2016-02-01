@@ -4,6 +4,7 @@ namespace Command;
 
 use Command\Base\BaseCommand;
 use Survos\Client\Resource\AssignmentResource;
+use Survos\Client\Resource\TaskResource;
 use Survos\Client\SurvosCriteria;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -64,8 +65,16 @@ class AssignmentProcessCommand extends BaseCommand
         if (!count($assignments['items']) || !$assignments['total']) {
             return;
         }
-
+        $tasksIds = array_map(function($item){ return $item['task_id']; }, $assignments['items']);
+        $taskResource = new TaskResource($this->sourceClient);
+        $tasks = $taskResource->getList(null, null, ['id' => array_unique($tasksIds)], ['id' => SurvosCriteria::IN]);
+        $surveyByTask = [];
+        foreach ($tasks['items'] as $task) {
+            $surveyByTask[$task['id']] = isset($task['survey_json']) ? json_decode($task['survey_json'], true) : null;
+        }
         foreach ($assignments['items'] as $key => $assignment) {
+//            $taskId = $assignment['task_id'];
+//            $survey = $surveyByTask[$taskId];
             if ($isVerbose) {
                 $no = ($page - 1) * $perPage + $key + 1;
                 $output->writeln("{$no} - Reading assignment #{$assignment['id']}");

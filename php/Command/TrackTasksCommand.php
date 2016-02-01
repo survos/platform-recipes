@@ -27,19 +27,13 @@ class TrackTasksCommand extends BaseCommand
                 InputOption::VALUE_REQUIRED,
                 'Source project code'
             )
-            ->addOption(
-                'enrollment-status-code',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'Enrollment status code'
-            );
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $isVerbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
         $projectCode = $input->getOption('project-code');
-        $enrollmentStatusCode = $input->getOption('enrollment-status-code');
 
         $memberResource = new MemberResource($this->sourceClient);
 
@@ -50,12 +44,14 @@ class TrackTasksCommand extends BaseCommand
 
         $assignments = $this->getTrackingAssignments($client = $this->sourceClient, $project, $memberCode, $date);
 
-        foreach ($assignments['items'] as $assignment) {
-            // perhaps the assignment should return the survey id, so we can get it?  Or even better, an option to include the task and survey JSON when calling getAssignments
-            $tracks = $this->getTracks($client, $assignment['scheduled_time'], $assignment['scheduled_end_time']);
-            if (false !== $center = $this->getTracksCenter($tracks)) {
-                $assignment['center_lat_lng'] = $center;
-                $this->saveAssignment($client, $assignment);
+        if ($assignments) {
+            foreach ($assignments['items'] as $assignment) {
+                // perhaps the assignment should return the survey id, so we can get it?  Or even better, an option to include the task and survey JSON when calling getAssignments
+                $tracks = $this->getTracks($client, $assignment['scheduled_time'], $assignment['scheduled_end_time']);
+                if (false !== $center = $this->getTracksCenter($tracks)) {
+                    $assignment['center_lat_lng'] = $center;
+                    $this->saveAssignment($client, $assignment);
+                }
             }
         }
     }
