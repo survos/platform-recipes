@@ -48,16 +48,18 @@ class AssignmentProcessCommand extends BaseCommand
         $perPage = 10;
         $maxPages = 1;
         $criteria = [];
-
         $data = [];
         $assignments = $assignmentResource->getList(
+            1,
+            1,
+            [
+                'survey_response_status_code' => 'initiated',
+            ],
             null,
             null,
-            ['survey_response_status_code' => 'initiated',],
-            ['survey_response_status_code' => SurvosCriteria::EQUAL,],
-            null,
-            ['project_code' => $projectCode,]
+            ['project_code' => 'behattest']
         );
+
         // if no items, return
         if (!count($assignments['items']) || !$assignments['total']) {
             return;
