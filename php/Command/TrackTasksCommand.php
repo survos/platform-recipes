@@ -49,8 +49,12 @@ class TrackTasksCommand extends BaseCommand
                 // perhaps the assignment should return the survey id, so we can get it?  Or even better, an option to include the task and survey JSON when calling getAssignments
                 $tracks = $this->getTracks($client, $assignment['scheduled_time'], $assignment['scheduled_end_time']);
                 if (false !== $center = $this->getTracksCenter($tracks)) {
-                    $assignment['center_lat_lng'] = $center;
-                    $this->saveAssignment($client, $assignment);
+                    $flatData = $assignment['flat_data'] ?: [];
+                    $flatData['center_lat_long'] = $center;
+                    $this->saveAssignment($client, [
+                        'id' => $assignment['id'],
+                        'submitted_json' => json_encode($flatData),
+                    ]);
                 }
             }
         }
@@ -117,7 +121,9 @@ class TrackTasksCommand extends BaseCommand
          */
         function GetCenterFromDegrees($data)
         {
-            if (!is_array($data)) return FALSE;
+            if (!is_array($data) or empty($data)) {
+                return false;
+            }
 
             $num_coords = count($data);
 
