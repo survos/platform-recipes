@@ -53,7 +53,7 @@ class TrackTasksCommand extends BaseCommand
                     $flatData['center_lat_long'] = $center;
                     $this->saveAssignment($client, [
                         'id' => $assignment['id'],
-                        'submitted_json' => json_encode($flatData),
+                        'flat_data' => $flatData,
                     ]);
                 }
             }
