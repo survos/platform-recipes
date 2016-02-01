@@ -14,14 +14,14 @@ use Survos\Client\Resource\ProjectResource;
 use Survos\Client\Resource\UserResource;
 
 
-class XferDataCommand extends BaseCommand
+class ExportDataCommand extends BaseCommand
 {
     protected function configure()
     {
         parent::configure();
         $this
-            ->setName('xfer:data')
-            ->setDescription('Transfer members from source server')
+            ->setName('export:data')
+            ->setDescription('Export data from source server as text')
             ->addOption(
                 'source-project-code',
                 null,
@@ -29,11 +29,25 @@ class XferDataCommand extends BaseCommand
                 'Source project code'
             )
             ->addOption(
-                'target-project-code',
+                'filename',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Target project code'
-            );
+                'Output File Name'
+            )
+            ->addOption(
+                'url-only',
+                null,
+                InputOption::VALUE_NONE,
+                'list of URLs only'
+            )
+            ->addOption(
+                'limit',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Number of records to read',
+                10
+            )
+            ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -42,23 +56,21 @@ class XferDataCommand extends BaseCommand
 //        die();
         $isVerbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
         $sourceProject = $input->getOption('source-project-code');
-        $targetProject = $input->getOption('target-project-code');
+        $urlOnly = $input->getOption('url-only');
 
         $fromData = new DataImageResource($this->sourceClient);
-        $toData = new DataImageResource($this->client);
         $projectResource = new ProjectResource($this->client);
         $userResource = new UserResource($this->client);
 
-        $project = $projectResource->getOneBy(['code' => $targetProject]);
-        if (!$project) {
-            $output->writeln(
-                "<error>Target project {$targetProject} not found</error>"
-            );
-            die();
+        if (!$outFile = $input->getOption('filename'))
+        {
+            $outFile = $sourceProject . ($urlOnly ? '_urls.txt' : "_data.csv");
         }
 
+        $fp = fopen($outFile, 'w');
+
         $page = 0;
-        $perPage = 10;
+        $perPage = 50;
         $maxPages = 1;
         while ($page < $maxPages) {
             $dataImages = $fromData->getList(++$page, $perPage, [], [], [], ['project_code' => $sourceProject]);
@@ -67,30 +79,28 @@ class XferDataCommand extends BaseCommand
             if (!count($dataImages['items']) || !$dataImages['total']) {
                 break;
             }
-
             foreach ($dataImages['items'] as $key => $dataImage) {
+                $no = ($page - 1) * $perPage + $key + 1;
                 if ($isVerbose) {
-                    $no = ($page - 1) * $perPage + $key + 1;
-                    $output->writeln("{$no} - Reading member #{$dataImage['id']}");
+                    $output->writeln("{$no} - Reading data #{$dataImage['id']}");
+                }
+                if (!$urlOnly and ($no == 1) )
+                {
+                    fputcsv($fp, array_keys($dataImage));
                 }
 
-                $this->processDataFields($dataImage, $project);
+                // $this->processDataFields($dataImage);
+                fputcsv($fp, $urlOnly ? [$dataImage['image_url']]: array_values($dataImage));
+            }
 
-                try {
-                    $res = $toData->save($dataImage);
-                    if ($isVerbose) {
-                        $output->writeln("New member  #{$res['id']} saved");
-                    }
-                } catch (\Exception $e) {
-                    $output->writeln(
-                        "<error>Problem saving data: {$e->getMessage()} </error>"
-                    );
-                    var_dump($dataImage);
-                }
+            if ($no==$input->getOption('limit')) {
+                break;
             }
 
 
         }
+        fclose($fp);
+        $output->writeln(sprintf("$outFile written with %d %s", $no, $urlOnly ? 'urls' : 'records'));
 
     }
 
@@ -105,6 +115,5 @@ class XferDataCommand extends BaseCommand
         unset($dataImage['id']);
         unset($dataImage['created_at']);
         unset($dataImage['updated_at']);
-        $dataImage['project_id'] = $newProject['id'];
     }
 }

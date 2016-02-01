@@ -3,7 +3,7 @@
   "description": "Survos php api recipes",
   "require": {
     "jwage/easy-csv": "^1.0",
-    "survos/platform-api-php": "^1.1.20",
+    "survos/platform-api-php": "dev-master",
     "symfony/console": "dev-master",
     "symfony/yaml": "dev-master",
     "incenteev/composer-parameter-handler": "2.1.*",
