@@ -19,6 +19,8 @@ use Survos\Client\Resource\UserResource;
 
 class AssignmentProcessCommand extends BaseCommand
 {
+    private $services;
+
     protected function configure()
     {
         parent::configure();
@@ -39,6 +41,8 @@ class AssignmentProcessCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->services = [];
+
         $isVerbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
         $projectCode = $input->getOption('project-code');
 
@@ -65,7 +69,12 @@ class AssignmentProcessCommand extends BaseCommand
         if (!count($assignments['items']) || !$assignments['total']) {
             return;
         }
-        $tasksIds = array_map(function($item){ return $item['task_id']; }, $assignments['items']);
+        $tasksIds = array_map(
+            function ($item) {
+                return $item['task_id'];
+            },
+            $assignments['items']
+        );
         $taskResource = new TaskResource($this->sourceClient);
         $tasks = $taskResource->getList(null, null, ['id' => array_unique($tasksIds)], ['id' => SurvosCriteria::IN]);
         $surveyByTask = [];
@@ -73,20 +82,47 @@ class AssignmentProcessCommand extends BaseCommand
             $surveyByTask[$task['id']] = isset($task['survey_json']) ? json_decode($task['survey_json'], true) : null;
         }
         foreach ($assignments['items'] as $key => $assignment) {
-//            $taskId = $assignment['task_id'];
-//            $survey = $surveyByTask[$taskId];
-            if ($isVerbose) {
-                $no = ($page - 1) * $perPage + $key + 1;
-                $output->writeln("{$no} - Reading assignment #{$assignment['id']}");
-            }
+            $taskId = $assignment['task_id'];
+            $survey = $surveyByTask[$taskId];
+            foreach ($survey['questions'] as $question) {
+                if ($isVerbose) {
+                    $output->writeln("Checking question \'{$question['text']}\' ");
+                }
+                switch ($question['code']) {
+                    case 'temp':
+                        $weatherData = $this->getWeatherData();
+                        // needs persisting to responses
+                        $assignment[$question['code']] = $weatherData['main']['temp'];
+                        break;
+                    case 'wind_speed':
+                        $weatherData = $this->getWeatherData();
+                        $assignment[$question['code']] = $weatherData['wind']['speed'];
+                        break;
+                    default:
+                        throw new Exception("Unhandled field '{$question['code']}' in survey");
+                }
 
-            var_dump($assignment);
-
-            if ($isVerbose) {
-                $output->writeln("Accepting member #{$assignment['id']}");
             }
+            $assignmentResource->save($assignment);
+
         }
 
+
+    }
+
+    /**
+     * get weather data - store locally to not fetch in case
+     */
+    private function getWeatherData()
+    {
+        if (isset($this->services['weather'])) {
+            $serviceData = $this->services['weather'];
+        } else {
+            $serviceData = json_decode(file_get_contents("http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=0dde8683a8619233195ca7917465b29d"), true);
+            $this->services['weather'] = $serviceData;
+        }
+
+        return $this->services['weather'];
 
     }
 
