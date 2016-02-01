@@ -55,7 +55,7 @@ class TrackTasksCommand extends BaseCommand
             $tracks = $this->getTracks($client, $assignment['scheduled_time'], $assignment['scheduled_end_time']);
             if (false !== $center = $this->getTracksCenter($tracks)) {
                 $assignment['center_lat_lng'] = $center;
-                saveAssignment($client, $assignment);
+                $this->saveAssignment($client, $assignment);
             }
         }
     }
@@ -109,7 +109,7 @@ class TrackTasksCommand extends BaseCommand
             foreach ($tracks['items'] as $track) {
                 $points[] = [$track['latitude'], $track['longitude']];
             }
-            return GetCenterFromDegrees($points);
+            return $this->GetCenterFromDegrees($points);
         }
 
         /**
