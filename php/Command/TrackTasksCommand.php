@@ -44,27 +44,59 @@ class TrackTasksCommand extends BaseCommand
 
         $assignments = $this->getTrackingAssignments($client = $this->sourceClient, $project, $memberCode, $date);
 
+        $surveysByTask = $this->getSurveysByTask($client);
         if ($assignments) {
             foreach ($assignments['items'] as $assignment) {
-                // perhaps the assignment should return the survey id, so we can get it?  Or even better, an option to include the task and survey JSON when calling getAssignments
-                $tracks = $this->getTracks($client, $assignment['scheduled_time'], $assignment['scheduled_end_time']);
-                if (false !== $center = $this->getTracksCenter($tracks)) {
-                    $flatData = $assignment['flat_data'] ?: [];
-                    $flatData['center_lat_long'] = $center;
-                    $this->saveAssignment($client, [
-                        'id' => $assignment['id'],
-                        'flat_data' => $flatData,
-                    ]);
+                $taskId = $assignment['task_id'];
+                $survey = $surveysByTask[$taskId];
+                $trackResponse = $this->getTracks($client, $assignment['scheduled_time'], $assignment['scheduled_end_time']);
+                $tracks = $trackResponse['items'];
+                if ($isVerbose) {
+                    $output->writeln(sprintf('%d points for %s to %s', count($tracks), $assignment['scheduled_time'], $assignment['scheduled_end_time']));
+                }
+                $newData = [];
+                foreach ($survey['questions'] as $question) {
+                    if ($isVerbose) {
+                        $output->writeln("Checking question '{$question['text']}' ");
+                    }
+                    switch ($question['code']) {
+                        case 'point_count':
+                            $newData[$question['code']] = count($tracks);
+                            break;
+                        case 'center_lat_lng':
+                            $center = $this->getTracksCenter($tracks);
+                            if ($center) {
+                                $newData[$question['code']] = $center;
+                            }
+                            break;
+                        default:
+                            // ignore other fields
+                    }
+                    if ($newData) {
+                        $flatData = array_merge(
+                            $assignment['flat_data'] ?: [],
+                            $newData
+                        );
+                        $this->saveAssignment($client, [
+                            'id' => $assignment['id'],
+                            'flat_data' => $flatData,
+                        ]);
+                    }
                 }
             }
         }
     }
 
-        function getTrackingTasks($client)
-        {
-            $resource = new \Survos\Client\Resource\TaskResource($client);
-            return $resource->getList(null, null, ['task_type_code' => 'device']);
+    function getSurveysByTask($client)
+    {
+        $resource = new \Survos\Client\Resource\TaskResource($client);
+        $tasks = $resource->getList(null, null, ['task_type_code' => 'device']);
+        $surveysByTask = [];
+        foreach ($tasks['items'] as $task) {
+            $surveysByTask[$task['id']] = isset($task['survey_json']) ? json_decode($task['survey_json'], true) : null;
         }
+        return $surveysByTask;
+    }
 
         function getTrackingAssignments($client, $project = null, $memberCode = null, $date = null)
         {
@@ -106,7 +138,7 @@ class TrackTasksCommand extends BaseCommand
         function getTracksCenter(array $tracks)
         {
             $points = [];
-            foreach ($tracks['items'] as $track) {
+            foreach ($tracks as $track) {
                 $points[] = [$track['latitude'], $track['longitude']];
             }
             return $this->GetCenterFromDegrees($points);
