@@ -12,6 +12,7 @@ use Survos\Client\SurvosClient;
 use Survos\Client\Resource\MemberResource;
 use Survos\Client\Resource\ProjectResource;
 use Survos\Client\Resource\UserResource;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TrackTasksCommand extends BaseCommand
 {
@@ -27,6 +28,18 @@ class TrackTasksCommand extends BaseCommand
                 InputOption::VALUE_REQUIRED,
                 'Source project code'
             )
+            ->addOption(
+                'survey',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Survey code'
+            )
+            ->addOption(
+                'member',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Member code'
+            )
         ;
     }
 
@@ -39,10 +52,14 @@ class TrackTasksCommand extends BaseCommand
 
 
         $project = 'behattest';
-        $memberCode = 'otest';
         $date = '2016-01-31';
 
-        $assignments = $this->getTrackingAssignments($client = $this->sourceClient, $project, $memberCode, $date);
+        $assignments = $this->getTrackingAssignments($client = $this->sourceClient, [
+            'project' => $project,
+            'memberCode' => $input->getOption('member'),
+            'date' => $date,
+            'surveyCode' => $input->getOption('survey')
+        ]);
 
         $surveysByTask = $this->getSurveysByTask($client);
         if ($assignments) {
@@ -57,7 +74,7 @@ class TrackTasksCommand extends BaseCommand
                 $newData = [];
                 foreach ($survey['questions'] as $question) {
                     if ($isVerbose) {
-                        $output->writeln("Checking question '{$question['text']}' ");
+                        $output->writeln(sprintf("Checking question '{$question['code']}' for %s",  $assignment['member_code']));
                     }
                     switch ($question['code']) {
                         case 'point_count':
@@ -98,24 +115,35 @@ class TrackTasksCommand extends BaseCommand
         return $surveysByTask;
     }
 
-        function getTrackingAssignments($client, $project = null, $memberCode = null, $date = null)
+        function getTrackingAssignments($client, Array $options)
         {
+            $resolver = new OptionsResolver();
+            $resolver->setDefaults([
+                'project' => null,
+                'memberCode' => null,
+                'surveyCode' => null,
+                'date' => null,
+            ]);
+            $options = $resolver->resolve($options);
             $resource = new \Survos\Client\Resource\AssignmentResource($client, $params = []);
-            $filter = ['score' => 0];
+            $filter = [];
+            // $filter = ['score' => 0];
             $comparison = ['score' => \Survos\Client\SurvosCriteria::GREATER_THAN];
             $params = ['task_type_code' => 'device'];
-            if (null !== $project) {
+            if ($project = $options['project']) {
                 $params['project_code'] = $project;
             }
-            if (null !== $memberCode) {
+            if ($memberCode = $options['memberCode']) {
                 $params['member_code'] = $memberCode;
             }
-            if (null !== $date) {
+            if ($surveyCode = $options['surveyCode']) {
+                $params['survey_code'] = $surveyCode;
+            }
+            if ($date = $options['date']) {
                 $filter['scheduled_time'] = $date;
                 $filter['scheduled_end_time'] = $date;
                 $comparison['scheduled_time'] = \Survos\Client\SurvosCriteria::LESS_EQUAL;
                 $comparison['scheduled_end_time'] = \Survos\Client\SurvosCriteria::GREATER_EQUAL;
-
             }
             return $resource->getList(null, null, $filter=[], $comparison, null, $params);
         }
