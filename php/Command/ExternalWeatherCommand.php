@@ -32,7 +32,14 @@ class ExternalWeatherCommand extends BaseCommand
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Source project code'
-            );
+            )
+            ->addOption(
+                'survey',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Survey code'
+            )
+        ;
     }
 
     /**
