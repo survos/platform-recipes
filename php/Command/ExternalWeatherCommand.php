@@ -112,16 +112,20 @@ class ExternalWeatherCommand extends BaseCommand
                 }
 
             }
-            if (!empty($answers))
-            {
-                $assignment['FlatData'] = $answers; // json_encode($answers); // seems like a big hack!
+            if (!empty($answers)) {
+                $assignment['flat_data']  = array_merge(
+                    $assignment['flat_data'] ?: [],
+                    $answers
+                );
+                $assignmentResource->save($assignment);
             }
-
-            $assignmentResource->save($assignment);
-
         }
+    }
 
-
+    function saveAssignment($client, $data)
+    {
+        $resource = new \Survos\Client\Resource\AssignmentResource($client);
+        $response = $resource->save($data);
     }
 
     /**
@@ -132,6 +136,7 @@ class ExternalWeatherCommand extends BaseCommand
         if (isset($this->services['weather'])) {
             $serviceData = $this->services['weather'];
         } else {
+
             $serviceData = json_decode(file_get_contents("http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=0dde8683a8619233195ca7917465b29d"), true);
             $this->services['weather'] = $serviceData;
         }
