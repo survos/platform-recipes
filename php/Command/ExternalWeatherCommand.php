@@ -92,6 +92,7 @@ class ExternalWeatherCommand extends BaseCommand
         foreach ($assignments['items'] as $key => $assignment) {
             $taskId = $assignment['task_id'];
             $survey = $surveyByTask[$taskId];
+            // $answers = [];
             foreach ($survey['questions'] as $question) {
                 if ($isVerbose) {
                     $output->writeln("Checking question \'{$question['text']}\' ");
@@ -100,17 +101,22 @@ class ExternalWeatherCommand extends BaseCommand
                     case 'temp':
                         $weatherData = $this->getWeatherData();
                         // needs persisting to responses
-                        $assignment[$question['code']] = $weatherData['main']['temp'];
+                        $answers[$question['code']] = $weatherData['main']['temp'];
                         break;
                     case 'wind_speed':
                         $weatherData = $this->getWeatherData();
-                        $assignment[$question['code']] = $weatherData['wind']['speed'];
+                        $answers[$question['code']] = $weatherData['wind']['speed'];
                         break;
                     default:
                         throw new Exception("Unhandled field '{$question['code']}' in survey");
                 }
 
             }
+            if (!empty($answers))
+            {
+                $assignment['FlatData'] = $answers; // json_encode($answers); // seems like a big hack!
+            }
+
             $assignmentResource->save($assignment);
 
         }
