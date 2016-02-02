@@ -8,7 +8,7 @@ use Symfony\Component\Console\Application;
 use Command\GreetCommand;
 
 $application = new Application();
-$application->add(new \Command\AssignmentProcessCommand());
+$application->add(new \Command\ExternalWeatherCommand());
 $application->add(new \Command\MembersAcceptCommand());
 $application->add(new \Command\MembersImportCommand());
 $application->add(new \Command\ProjectsImportCommand());

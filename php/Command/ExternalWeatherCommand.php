@@ -17,7 +17,7 @@ use Survos\Client\Resource\ProjectResource;
 use Survos\Client\Resource\UserResource;
 
 
-class AssignmentProcessCommand extends BaseCommand
+class ExternalWeatherCommand extends BaseCommand
 {
     private $services;
 
@@ -25,8 +25,8 @@ class AssignmentProcessCommand extends BaseCommand
     {
         parent::configure();
         $this
-            ->setName('assignment:process')
-            ->setDescription('Process API assignments')
+            ->setName('external:weather')
+            ->setDescription('Process any tasks with weather in the survey code')
             ->addOption(
                 'project-code',
                 null,
@@ -54,6 +54,7 @@ class AssignmentProcessCommand extends BaseCommand
         $maxPages = 1;
         $criteria = [];
         $data = [];
+        // need much better filter!  Maybe the survey or wave needs to associate itself with an external service?
         $assignments = $assignmentResource->getList(
             1,
             1,
